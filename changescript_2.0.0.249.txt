@@ -1,0 +1,85 @@
+<?php /* <ViaThinkSoftSignature>
+cIijsappbOYePfrQ9+qXSRLKBnkOgRPXsn6LOGS8fjk8BBu6LGCGQqDfC1vtfnmck
+ql+3tnizcM8u+Bf1EpuN5Wq7OFLzWqwwGTJYL/jqNQF5GEvWR0/9wxm+xZYSeMaSP
+/gV8zFHKUTeoYnyUk4FrnGV/xoLa5W4pyW69+m0olLfIDmwIEiJsENlPZ18r5HgQa
+3h/2sJaaAFKGOVIKnpBMmZZDE3LrIGGO3kc4DA2APAeOphOoMYSVF+mYIRlg3oY5W
+nVvUSo1yP10foUP0Mt6C+3eX6QVRNbSHLWrWTmsV/Tw55Q6a48VZb7XLx1dBtL3PX
+iuCPRR7M+I0sBkSGlyI+9PXM/hYpyVmfEZ/opg8IAK01UY9RgPmcdI/Ltdixqd9ec
+t93NCQkEy9GUemgGpAKonSd5TlJVn+RGx5j7L07SDjgR2T/Y/e6H/NuPBnm5ZatKs
+izjNAa5o6UwFQw95pKTuRFZ+MzLqX9OeF71kL8ujC3FlDVLOiRTNcXhXTZ3Du0Mwh
+jMoHvgLjCp73Ayr3FiHgImyvEzmeA0ht0SrmKyXN7XlS0rSgOKryTXxiTQ4WKxGdO
+MLH2n2Tn41Xhsd4EW6ImXDJtG+WlC6/3WGy9J1nT0BO5xzKEPkB9COKOr3ENvuYBM
+2cRYOTA0JmwS/MxND0dFtE5MI5iQwsQ1pjWJvxGeRvOIz7FOg5JeeT5XVz/VrxRhb
+24BC/BzPzCHXKnQl8XnE+BNiNbygXAzBHmMWhpZN/J1cvb4lpQJxfcKR7Ft/VEXFs
+QxuQhu+L9F9m4EMuvUEZ2AS+0t7RIpwo4eI2huEyRHyQFeAYGSD8JjujQTkfZeT3d
+DRDXvp0fxWNVTP9tZ66mQYs32UFATa4DYYP2SYvp3Wij5pDOYd08gBDDDCniHNjvO
+z3CA1k6u7gyQIdCv8N412CVGTu+lFrwCWPbUnLkJWYjXSADuiAsiwCj+N+URjcbFz
+5s2tbks0rgHBra8yEU8uwmxBe0OwLlcREfCWqMptB+xhJniBcVk5tLzFJF8mhCjkG
+iafT8I+JTduJHfItrnNxbdbaWwNxcHiAORSfvdD9P4XU+3PD8ypxqL7xYDDbYY4Pr
+Sq2wAj5s5lGtb4hGSYezJ22yDOZ63DjpL9U0hMBhh+yxpbnYKsQpl4Lgc64diY4YO
+Ig4dz/fO79/xVlZ35kN4Tl16o+Jij6BDtt7JjlkuDr2Tn4cDvgmz0sjraoBiVCIc8
+mLd5r3kSzYs3ZHf2Tw8WVuzUvn5fpcWP0u9OoG5+swcmniWNNkZH9MY47eywJKF+V
+3ZPkNWjVrE5ZZxkbwlmMn8QCA6WSFDdF3cKxZW5Kk/lYHE9SKlQORgSw+A+XzEUpg
+g==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 248') {
+	err('This update can only be applied to OIDplus version 2.0.0.248!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+// Different file chmod: dev/generate_example_data_mssql
+if ((DIRECTORY_SEPARATOR === '/') && !@chmod('dev/generate_example_data_mssql', 0755)) {
+	warn('Could not change file permissions of dev/generate_example_data_mssql');
+}
+
+// Different file chmod: dev/generate_wellknown_country_mssql
+if ((DIRECTORY_SEPARATOR === '/') && !@chmod('dev/generate_wellknown_country_mssql', 0755)) {
+	warn('Could not change file permissions of dev/generate_wellknown_country_mssql');
+}
+
+// Different file chmod: dev/generate_wellknown_other_mssql
+if ((DIRECTORY_SEPARATOR === '/') && !@chmod('dev/generate_wellknown_other_mssql', 0755)) {
+	warn('Could not change file permissions of dev/generate_wellknown_other_mssql');
+}
+
+
+file_put_contents('oidplus_version.txt', "Revision 249\n");
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 249') err('Could not write to oidplus_version.txt!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+

@@ -1,0 +1,114 @@
+<?php /* <ViaThinkSoftSignature>
+eERuQedNsCEHfW2w6H2qaA4Vchn53rprHDl3KTggWPHpAtuxas/obwASGayhHSNv4
+70uRr6Z/k+Qp2Jj9vvsrpUQE+k0roEgRH8VrTHLztpGTEpCLsOb1yZFU87kR0kuN7
+WZiDO/iuTlqy46o5mbLqTD7m3vSjIaXo4F1F140D8PoylRXcZgCXZcmU7YLMr5VtC
+tvkziSVApnKyqxIEtJwm1qfMWvUn0PBSgNR+WDlfNqv14pQQCb0FscR+xYkDxMajK
+5SpLfmlZshRkMsB9q8xtB9k80jLBbXovEHU3ijXGySbWBfD+7R18oNzENKRIgz+Re
+PRmXCRcYLvvQvEcTaThueTY35OukLURBDIeZ95msvS7jeqyCxQXxIH/ajKra8u5Yh
+LmYZ1VQjO+IvCF6xOLS4qOQsDsWaE7t5Y9O4wmj6Z53Wd/y9Z/uzOJ2AkSjTUp8WI
+46SPwLyyINzyFW8svXFRXbz21husZMK9cMAGtBDSBA9Ojd0ZClRzETD3re016OCj9
+pkZaqIm/BZyrL3DcFfBpuCGGssSZVS4tjPSQZL3NVvZ7flO96DbSRmGgPXk6+LCya
+DLGgjVbZOm3mshjw1devfncRE34NYCbX091TS/TgobcCh+Y2QD/OUOhge8mxAgxIV
+hijHq7uTdfrqPO3ENUdhGLM2csFLNWXAcspjvQKlFCFihWHkhJ5Ic/cCkJ+jFaD5B
+wsm72IoQUVCRlzrCVsmGrkxbqWsonmrNe/9OIn7YNuYEiWOMQCuQfH6HSycrTJxA3
+o86IDHLOLoiHh9NkwsY2GEoGWGsraDW85LqMN7cV4mAEzc5kZmo7sSef4JYdPyOXe
+11BdXkrlZpCB5xSaPz0+pfc0Z5JmUxX7Pf+Gu5mb0GcrOUBWEtUCuEFzMpQpQqUjn
+7gMujFjfC9+aUhKq8cpEjVs/wghNosnLRxMxmdxKkhH2rZryqfFW1JJ1ArbUXbeOl
+Ap71mUrqOzHMylrGzzHFbOYYVZwE7zoYD/1FGtTkUvPRwcnCFcxIqJZJV3k8oqU0j
+g1lv/oANyIhBrsA7Z/3e81i2Ec682lAqhNZhrZtQSvP+wAxac87c/YybednTs05aL
+5zrV2nnF+GUKJ8OXiJyDDLDppdhsXscyrbXrgbWoZD+xmA0aQyQMfbKQApICWI6Y7
+zbrnge3wBC84mzVeluCd6eyh06hmn1C/66gcpqoLO+ciIIWEQ6XZMWVOUnYCxN+Rx
+EQf6pJqgO01Okvg7fTqxfIk63BTGzXrL68M/bWMxtgASQtOve8krR+bCzBniZvNpw
+DRIss9W4afEseTdoz3KcN0sSSdxRIg5OeMkTyUgfaEt4foB5mO1fEuT8qhQHBZDaA
+Q==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('.version.php')) !== '<?php // Revision 964') {
+	err('This update can only be applied to OIDplus version 2.0.0.964!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+// Files different: plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js
+function writefile_1() {
+	@$fp = fopen('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js', 'w');
+	@fwrite($fp, base64_decode('LyoNCiAqIE9JRHBsdXMgMi4wDQogKiBDb3B5cmlnaHQgMjAxOSAtIDIwMjIgRGFuaWVsIE1hcnNjaGFsbCwgVmlhVGhpbmtTb2Z0DQogKg0KICogTGljZW5zZWQgdW5kZXIgdGhlIEFwYWNoZSBMaWNlbnNlLCBWZXJzaW9uIDIuMCAodGhlICJMaWNlbnNlIik7DQog'));
+	@fwrite($fp, base64_decode('KiB5b3UgbWF5IG5vdCB1c2UgdGhpcyBmaWxlIGV4Y2VwdCBpbiBjb21wbGlhbmNlIHdpdGggdGhlIExpY2Vuc2UuDQogKiBZb3UgbWF5IG9idGFpbiBhIGNvcHkgb2YgdGhlIExpY2Vuc2UgYXQNCiAqDQogKiAgICAgaHR0cDovL3d3dy5hcGFjaGUub3JnL2xpY2Vu'));
+	@fwrite($fp, base64_decode('c2VzL0xJQ0VOU0UtMi4wDQogKg0KICogVW5sZXNzIHJlcXVpcmVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIGFncmVlZCB0byBpbiB3cml0aW5nLCBzb2Z0d2FyZQ0KICogZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIExpY2Vuc2UgaXMgZGlzdHJpYnV0ZWQgb24gYW4gIkFT'));
+	@fwrite($fp, base64_decode('IElTIiBCQVNJUywNCiAqIFdJVEhPVVQgV0FSUkFOVElFUyBPUiBDT05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIgZXhwcmVzcyBvciBpbXBsaWVkLg0KICogU2VlIHRoZSBMaWNlbnNlIGZvciB0aGUgc3BlY2lmaWMgbGFuZ3VhZ2UgZ292ZXJuaW5nIHBlcm1p'));
+	@fwrite($fp, base64_decode('c3Npb25zIGFuZA0KICogbGltaXRhdGlvbnMgdW5kZXIgdGhlIExpY2Vuc2UuDQogKi8NCg0KdmFyIE9JRHBsdXNPYmplY3RUeXBlUGx1Z2luQWlkID0gew0KDQoJT0lEOiAiMS4zLjYuMS40LjEuMzc0NzYuMi41LjIuNC44LjExIiwNCg0KCWdlbmVyYXRlUmFuZG9t'));
+	@fwrite($fp, base64_decode('QUlEOiBmdW5jdGlvbigpIHsNCgkJdmFyIGxlbmd0aCAgICAgPSAzMjsgLy8gMzIgbmliYmxlcyA9IDE2IGJ5dGVzDQoJCXZhciBjaGFyYWN0ZXJzID0gJzAxMjM0NTY3ODlBQkNERUYnOw0KCQlkbyB7DQoJCQl2YXIgcmVzdWx0ID0gJ0YnOyAvLyBjYXRlZ29yeSAi'));
+	@fwrite($fp, base64_decode('RiIgPSBVbnJlZ2lzdGVyZWQgUHJvcHJpZXRhcnkgQUlEDQoJCQlmb3IgKCB2YXIgaSA9IDAgOyBpIDwgbGVuZ3RoIC0gMS8qRiovIDsgaSsrICkgew0KCQkJCXJlc3VsdCArPSBjaGFyYWN0ZXJzLmNoYXJBdChNYXRoLmZsb29yKE1hdGgucmFuZG9tKCkgKiBjaGFy'));
+	@fwrite($fp, base64_decode('YWN0ZXJzLmxlbmd0aCkpOw0KCQkJfQ0KCQl9IHdoaWxlIChyZXN1bHQuZW5kc1dpdGgoJ0ZGJykgJiYgKHJlc3VsdC5sZW5ndGg9PTMyKSk7DQoNCgkJLy8gTm90ZSB0aGF0IDE2IGJ5dGUgQUlEcyBlbmRpbmcgd2l0aCAweEZGICp3ZXJlKiByZXNlcnZlZCBieSBJ'));
+	@fwrite($fp, base64_decode('U08gaW4gSVNPIDc4MTYtNDoxOTk0LA0KCQkvLyBidXQgbW9kZXJuIHZlcnNpb25zIG9mIElTTyA3ODE2LTQgYW5kIElTTyA3ODE2LTQgZG8gbm90IG1lbnRpb24gdGhpcyBjYXNlIGFueW1vcmUuDQoJCS8vIEl0IGNhbiBiZSBhc3N1bWVkIHRoYXQgdGhlIHVzYWdl'));
+	@fwrite($fp, base64_decode('IGlzIHNhZmUsIGJ1dCBqdXN0IHRvIGJlIHN1cmUsIHdlIGV4Y2x1ZGUgMTYtYnl0ZQ0KCQkvLyBBSURzIGVuZGluZyB3aXRoIDB4RkYsIGluIGNhc2UgdGhlcmUgYXJlIHNvbWUgc29mdHdhcmUgaW1wbGVtZW50YXRpb25zIHdoaWNoDQoJCS8vIGRlbnkgc3VjaCBB'));
+	@fwrite($fp, base64_decode('SURzLg0KDQoJCSQoIiNpZCIpLnZhbChyZXN1bHQpOw0KCX0NCg0KfTsNCg=='));
+	@fclose($fp);
+}
+if (!is_file('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js')) {
+	warn('File has vanished! Will re-create it: plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js');
+	writefile_1();
+	if (!is_file('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js')) {
+		warn('File cannot be created (not existing): plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js');
+	} else if (sha1_file('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js') != 'e782ad094847c2cc214ad111de32ae9ee978292f') {
+		warn('File cannot be created (checksum mismatch): plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js');
+	} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js', 0644)) {
+		warn('Could not change file permissions of plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js');
+	}
+} else {
+	if (@sha1_file('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js') !== 'e782ad094847c2cc214ad111de32ae9ee978292f') {
+		if (@sha1_file('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js') !== 'a335e95f5b97a7b2d117a245132dcee1c0179165') {
+			warn('File was modified. Will overwrite the changes now: plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js');
+			$tmp = pathinfo('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js');
+			$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+			warn('Creating a backup as '.$backup_name);
+			if (!@copy('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js', $backup_name)) {
+				warn('Creation of backup failed');
+			}
+		}
+		writefile_1();
+		if (@sha1_file('plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js') !== 'e782ad094847c2cc214ad111de32ae9ee978292f') {
+			warn('File cannot be written (checksum mismatch): plugins/viathinksoft/objectTypes/aid/OIDplusObjectTypePluginAid.js');
+		}
+	}
+}
+
+
+file_put_contents('.version.php', "<?php // Revision 966\n");
+if (trim(@file_get_contents('.version.php')) !== '<?php // Revision 966') err('Could not write to .version.php!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+

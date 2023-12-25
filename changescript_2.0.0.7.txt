@@ -1,0 +1,406 @@
+<?php /* <ViaThinkSoftSignature>
+ZS24tBH90EtzuD6DYDwkBaZMyKCXLCWrGS096HrWNfFdD52mMMKkimmK0N1cz9PxC
+RwQnEUVZbk1y0fZRmKuXa8oYlWady2gKhJTJUyEwj5XHIu4EJDeVlnxXUYcgLQQxm
+iX92zXfHbslqy4iUIDSmK+8Gohngj3pc3x2AikxFquLjYxS6rEvu9jqNP+x1JXhAX
+hMErRtd8tNlWwCTO4AO1yTI9oV5dgh2oR/Ul2mypk2qqqreKcE787C5XHLpPTPu3V
+Fktzbj2vZMt+xpWT3+tw/sKi3Dgp2X2s9T9TpytrwmpN1gqQRCpoMKuGwzQ7w6Nv6
+Q4D8ZnTPwASwxVIYzllnCN5k0Q8OJa7cz+xTxDGqZh2m5tIyxeZkLdgl2sN7MAHQi
+HJxR9DZ46TfWrwQ9AyPu0HlFDb6iw+Ic/A6UOvY2J14hnW2TgRrugEzpaM6RHJ91P
+Mqv1tIM+S1+Z9GyrQiXsOZZUDGo8GIeNHFHoZ+81fMIvsmDcYKCA1tNF5C8CUpKEe
+RUY63fki1eNDp7P/VpBuLYZjDnJE2t1ehUeJg1p6c/q3PAUQt36Ryo7x2aH7L6xlZ
+V6wLHAcR0VHhP25qB9xCg4b8gOYwTQ2cY15rNRy0Q+lu7ShUd+P44Ay1b3826SIGW
+p6RJ+2x+iAoXZ+RLTDBo2aaRfYbb1A5/ckWLI6JqJz1kZxnqHoVVjPyMeihjZ5lFO
+d6gBTyR/rauSvCL+ZO+i7zGVPKy1vutVWuV3Ny45KiJQajX0McH7JFdYmnCnCvWXx
+kfnOp/iowO3CuefMEbpdVpWX61kBarPn7bEZaUGSwfK67MZbgI9CrQWyTxOeWiIkQ
+pDxHzMyN5WETaBXuf2OQyJagfcDrzOxd7buFojpnyDChtVKfAPdMF6LUqODgefwZb
+8pm5A1yo4GuliByvXkDRzfFJdkX+G/lirse70Eq3B4lyLgu1bcvsTIB+KyRcya7Dq
+DIFcAtrtGf2wbuQioZxmC+AG4Msuctq/EzRelpD7+ut3bmCmV5HCK6PnW+w2Bunus
+93xna34hWGwMYd/ZFAqUr0t1wfnYHtWYdCUBRDyR2hsfMVeegthAnn340uEI+F416
+4pef2dUOxy7OF4AEGB4v4+lTzXxoTR2RUjHshynBaVCmov7RWnW6vsqWoavLm5KtG
+GMuAVwh7utoDt6XGY5ODV18BApCuRS0PbKSFKzkTB9zyemvlCGodakfpE0ByXL9bd
+t7ZuWcLjsTEpIhRjclCW72tW5h3fS/bBKmbqnIx9rl6R68/xSqKxd/2ZPY3E6XYh7
+hkom4CTF9T6DVO7tdYwh8ncPpitioiV2VZE3YF/LwtGLgqlNBhpQ5fJBP+6epSfTr
+Q==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 6') {
+	err('This update can only be applied to OIDplus version 2.0.0.6!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+// File deleted: 3p/tinymce/plugins/codesample/css/prism.css
+@unlink('3p/tinymce/plugins/codesample/css/prism.css');
+if (is_file('3p/tinymce/plugins/codesample/css/prism.css')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/codesample/css/prism.css');
+}
+
+// Dir deleted: 3p/tinymce/plugins/codesample/css
+@rmdir('3p/tinymce/plugins/codesample/css');
+if (is_dir('3p/tinymce/plugins/codesample/css')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/plugins/codesample/css');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-cool.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-cool.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-cool.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-cool.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-cry.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-cry.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-cry.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-cry.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-embarassed.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-embarassed.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-embarassed.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-embarassed.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-frown.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-frown.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-frown.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-frown.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-innocent.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-innocent.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-innocent.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-innocent.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-kiss.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-kiss.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-kiss.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-kiss.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-laughing.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-laughing.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-laughing.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-laughing.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-money-mouth.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-money-mouth.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-money-mouth.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-money-mouth.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-sealed.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-sealed.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-sealed.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-sealed.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-smile.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-smile.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-smile.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-smile.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-surprised.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-surprised.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-surprised.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-surprised.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-tongue-out.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-tongue-out.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-tongue-out.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-tongue-out.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-undecided.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-undecided.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-undecided.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-undecided.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-wink.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-wink.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-wink.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-wink.gif');
+}
+
+// File deleted: 3p/tinymce/plugins/emoticons/img/smiley-yell.gif
+@unlink('3p/tinymce/plugins/emoticons/img/smiley-yell.gif');
+if (is_file('3p/tinymce/plugins/emoticons/img/smiley-yell.gif')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/emoticons/img/smiley-yell.gif');
+}
+
+// Dir deleted: 3p/tinymce/plugins/emoticons/img
+@rmdir('3p/tinymce/plugins/emoticons/img');
+if (is_dir('3p/tinymce/plugins/emoticons/img')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/plugins/emoticons/img');
+}
+
+// File deleted: 3p/tinymce/plugins/help/img/logo.png
+@unlink('3p/tinymce/plugins/help/img/logo.png');
+if (is_file('3p/tinymce/plugins/help/img/logo.png')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/help/img/logo.png');
+}
+
+// Dir deleted: 3p/tinymce/plugins/help/img
+@rmdir('3p/tinymce/plugins/help/img');
+if (is_dir('3p/tinymce/plugins/help/img')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/plugins/help/img');
+}
+
+// File deleted: 3p/tinymce/plugins/visualblocks/css/visualblocks.css
+@unlink('3p/tinymce/plugins/visualblocks/css/visualblocks.css');
+if (is_file('3p/tinymce/plugins/visualblocks/css/visualblocks.css')) {
+	warn('File could not be deleted: 3p/tinymce/plugins/visualblocks/css/visualblocks.css');
+}
+
+// Dir deleted: 3p/tinymce/plugins/visualblocks/css
+@rmdir('3p/tinymce/plugins/visualblocks/css');
+if (is_dir('3p/tinymce/plugins/visualblocks/css')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/plugins/visualblocks/css');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/content.inline.min.css
+@unlink('3p/tinymce/skins/lightgray/content.inline.min.css');
+if (is_file('3p/tinymce/skins/lightgray/content.inline.min.css')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/content.inline.min.css');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/content.min.css
+@unlink('3p/tinymce/skins/lightgray/content.min.css');
+if (is_file('3p/tinymce/skins/lightgray/content.min.css')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/content.min.css');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/content.mobile.min.css
+@unlink('3p/tinymce/skins/lightgray/content.mobile.min.css');
+if (is_file('3p/tinymce/skins/lightgray/content.mobile.min.css')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/content.mobile.min.css');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-mobile.woff
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce-mobile.woff');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce-mobile.woff')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-mobile.woff');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-small.eot
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce-small.eot');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce-small.eot')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-small.eot');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-small.svg
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce-small.svg');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce-small.svg')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-small.svg');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-small.ttf
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce-small.ttf');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce-small.ttf')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-small.ttf');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-small.woff
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce-small.woff');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce-small.woff')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce-small.woff');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce.eot
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce.eot');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce.eot')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce.eot');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce.svg
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce.svg');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce.svg')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce.svg');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce.ttf
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce.ttf');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce.ttf')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce.ttf');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/fonts/tinymce.woff
+@unlink('3p/tinymce/skins/lightgray/fonts/tinymce.woff');
+if (is_file('3p/tinymce/skins/lightgray/fonts/tinymce.woff')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/fonts/tinymce.woff');
+}
+
+// Dir deleted: 3p/tinymce/skins/lightgray/fonts
+@rmdir('3p/tinymce/skins/lightgray/fonts');
+if (is_dir('3p/tinymce/skins/lightgray/fonts')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/skins/lightgray/fonts');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/img/anchor.gif
+@unlink('3p/tinymce/skins/lightgray/img/anchor.gif');
+if (is_file('3p/tinymce/skins/lightgray/img/anchor.gif')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/img/anchor.gif');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/img/loader.gif
+@unlink('3p/tinymce/skins/lightgray/img/loader.gif');
+if (is_file('3p/tinymce/skins/lightgray/img/loader.gif')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/img/loader.gif');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/img/object.gif
+@unlink('3p/tinymce/skins/lightgray/img/object.gif');
+if (is_file('3p/tinymce/skins/lightgray/img/object.gif')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/img/object.gif');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/img/trans.gif
+@unlink('3p/tinymce/skins/lightgray/img/trans.gif');
+if (is_file('3p/tinymce/skins/lightgray/img/trans.gif')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/img/trans.gif');
+}
+
+// Dir deleted: 3p/tinymce/skins/lightgray/img
+@rmdir('3p/tinymce/skins/lightgray/img');
+if (is_dir('3p/tinymce/skins/lightgray/img')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/skins/lightgray/img');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/skin.min.css
+@unlink('3p/tinymce/skins/lightgray/skin.min.css');
+if (is_file('3p/tinymce/skins/lightgray/skin.min.css')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/skin.min.css');
+}
+
+// File deleted: 3p/tinymce/skins/lightgray/skin.mobile.min.css
+@unlink('3p/tinymce/skins/lightgray/skin.mobile.min.css');
+if (is_file('3p/tinymce/skins/lightgray/skin.mobile.min.css')) {
+	warn('File could not be deleted: 3p/tinymce/skins/lightgray/skin.mobile.min.css');
+}
+
+// Dir deleted: 3p/tinymce/skins/lightgray
+@rmdir('3p/tinymce/skins/lightgray');
+if (is_dir('3p/tinymce/skins/lightgray')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/skins/lightgray');
+}
+
+// File deleted: 3p/tinymce/themes/inlite/theme.min.js
+@unlink('3p/tinymce/themes/inlite/theme.min.js');
+if (is_file('3p/tinymce/themes/inlite/theme.min.js')) {
+	warn('File could not be deleted: 3p/tinymce/themes/inlite/theme.min.js');
+}
+
+// Dir deleted: 3p/tinymce/themes/inlite
+@rmdir('3p/tinymce/themes/inlite');
+if (is_dir('3p/tinymce/themes/inlite')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/themes/inlite');
+}
+
+// File deleted: 3p/tinymce/themes/modern/theme.min.js
+@unlink('3p/tinymce/themes/modern/theme.min.js');
+if (is_file('3p/tinymce/themes/modern/theme.min.js')) {
+	warn('File could not be deleted: 3p/tinymce/themes/modern/theme.min.js');
+}
+
+// Dir deleted: 3p/tinymce/themes/modern
+@rmdir('3p/tinymce/themes/modern');
+if (is_dir('3p/tinymce/themes/modern')) {
+	warn('Directory could not be deleted (was not empty?): 3p/tinymce/themes/modern');
+}
+
+// File deleted: plugins/objectTypes/doi/img/treeicon_link.png
+@unlink('plugins/objectTypes/doi/img/treeicon_link.png');
+if (is_file('plugins/objectTypes/doi/img/treeicon_link.png')) {
+	warn('File could not be deleted: plugins/objectTypes/doi/img/treeicon_link.png');
+}
+
+// File deleted: plugins/objectTypes/gs1/img/treeicon_link.png
+@unlink('plugins/objectTypes/gs1/img/treeicon_link.png');
+if (is_file('plugins/objectTypes/gs1/img/treeicon_link.png')) {
+	warn('File could not be deleted: plugins/objectTypes/gs1/img/treeicon_link.png');
+}
+
+// File deleted: plugins/objectTypes/guid/img/treeicon_link.png
+@unlink('plugins/objectTypes/guid/img/treeicon_link.png');
+if (is_file('plugins/objectTypes/guid/img/treeicon_link.png')) {
+	warn('File could not be deleted: plugins/objectTypes/guid/img/treeicon_link.png');
+}
+
+// File deleted: plugins/objectTypes/ipv4/img/treeicon_link.png
+@unlink('plugins/objectTypes/ipv4/img/treeicon_link.png');
+if (is_file('plugins/objectTypes/ipv4/img/treeicon_link.png')) {
+	warn('File could not be deleted: plugins/objectTypes/ipv4/img/treeicon_link.png');
+}
+
+// File deleted: plugins/objectTypes/ipv6/img/treeicon_link.png
+@unlink('plugins/objectTypes/ipv6/img/treeicon_link.png');
+if (is_file('plugins/objectTypes/ipv6/img/treeicon_link.png')) {
+	warn('File could not be deleted: plugins/objectTypes/ipv6/img/treeicon_link.png');
+}
+
+// File deleted: plugins/objectTypes/java/img/treeicon_link.png
+@unlink('plugins/objectTypes/java/img/treeicon_link.png');
+if (is_file('plugins/objectTypes/java/img/treeicon_link.png')) {
+	warn('File could not be deleted: plugins/objectTypes/java/img/treeicon_link.png');
+}
+
+// File deleted: plugins/objectTypes/oid/img/treeicon_link.png
+@unlink('plugins/objectTypes/oid/img/treeicon_link.png');
+if (is_file('plugins/objectTypes/oid/img/treeicon_link.png')) {
+	warn('File could not be deleted: plugins/objectTypes/oid/img/treeicon_link.png');
+}
+
+// File deleted: plugins/objectTypes/other/img/treeicon_link.png
+@unlink('plugins/objectTypes/other/img/treeicon_link.png');
+if (is_file('plugins/objectTypes/other/img/treeicon_link.png')) {
+	warn('File could not be deleted: plugins/objectTypes/other/img/treeicon_link.png');
+}
+
+
+file_put_contents('oidplus_version.txt', "Revision 7\n");
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 7') err('Could not write to oidplus_version.txt!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+

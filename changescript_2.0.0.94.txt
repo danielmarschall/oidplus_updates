@@ -1,0 +1,334 @@
+<?php /* <ViaThinkSoftSignature>
+AkuybU1N8Ffw2D2M8CuVajvkoKgtH1vyNKUUNoC4MGEGaOgcxUbmS5fikm3WPMfly
+1QVipG4kKI49LJ4B44//Cok0ZMOzAA/F24Sj/5ula3kAwNQqsdLV1n30rc0P+8hRi
+niOC6ocEDMsn4mLje6lG/N+Rk2shafQVs32SfrxYJ8Ig+3OQSqaqo2hi6CoILA6Ev
+TXhs8fhoVrmucPCBkLxDcF0y1SRej5R/yaTRwWinpCI6jZGvQeklHqnKPA405ojKl
+xMVIHbXr4jAbR6teXY8O5RY8TwWKlvmf0JQWf2fbfjpV1L/Q56S2iSRiNuOlsIrDQ
+fkNFy5Aeq9cWcgAQZacYcCagxYb2DPbj7CoABMN2hxtFRJNt3cEGYEE+pjhycMSuO
+8xKa2zjPSVUTSaXfabYHiAzk1K/HB4AAowLTnz0Tv4Kjje6IQ9C6qxGd6mPY+wPgc
+2wVnH6tA6mAuVWM6BbaHDEEcGO77OkizuWUOgCkhQwSfJ8kDUBs+CfBUsNhqHmgDS
+j1nXKnyCCvXzgmcFRG8cyqFn10lVA9LF/+FkCdsveZQTXK8C2wzJuPdDGtyJLGGlO
+Ez55QUblM/7A7TxcQK0KNSmoIZRHdaSd/sj0u4XXC0oo/U+/8b7NLdsHFkfDL3CVR
+5LlIEPd1N4KPSOa/qMgujG43t7jSxWgjEK+f9c5i57bm2HRdDyj+rH+KeHBbFcxAc
+fGiZerrf84n2Tp5p7tKnrJyTfx9U+BT2vvwTmomLqFDo/LIQKzSb5K3JRNpt3bnSD
+U66lGlwu4hAy19VBC4q6ApvT8QlyZSwhKYu/ezyrKRM3QgsKTN0O8T+1SefBFtTF7
+I3qz/OCAvVmxrMJv3/e0eZgHIMdYIf8Jn8MUW97b8+MtFMVRGz32a23d4E2fKehW1
+SpOEfLwG0/NZ2v3VFHfZMDxIzMXsq+xOFuJ8sMxktXpGmr3PkeYLnFxxx6/s2mzta
+Ov0uq/ykEN/ZQjD7IEwc8oPzpQtBLJUwyG4Ck8gyK/aQQVD2RpplRb5bPOf6B8b0M
+bUFo57IVVp4/fisnp97DW4/JG7RyKAUqiFuk1L3RKPw7+EPVvs9q6MgONctNh2rO8
+nAavTzQa1quTiX7nR0lHQ8+7N7RqrT7NFNIvX1NgCKd8Czs93p/nS1hWN5eqiwixa
+VIAfsolhR6nmsBKgIwapE/Ktk/PYVYGdSbTwVhU4LIEQ/rKiXikD8I+VRN8t48UYX
+yh2krUy9fvH75GWA4RCEoDbQzfIT0E5D2sO7utZngxXwA0z5xf5L+S5RwdY/2pkW8
+rNAGnBzg4khDJ6ol4MpB1IDRIk9JzxUnnQnAlOuNqB3xGK5Sbz7i/99sM7uYW5OVE
+A==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 93') {
+	err('This update can only be applied to OIDplus version 2.0.0.93!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+// File added: 3p/bootstrap/css/index.html
+function writefile_1() {
+	@$fp = fopen('3p/bootstrap/css/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('3p/bootstrap/css/index.html') && (sha1_file('3p/bootstrap/css/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: 3p/bootstrap/css/index.html');
+	$tmp = pathinfo('3p/bootstrap/css/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('3p/bootstrap/css/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('3p/bootstrap/css/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_1();
+if (!is_file('3p/bootstrap/css/index.html')) {
+	warn('File cannot be created (not existing): 3p/bootstrap/css/index.html');
+} else if (sha1_file('3p/bootstrap/css/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): 3p/bootstrap/css/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('3p/bootstrap/css/index.html', 0644)) {
+	warn('Could not change file permissions of 3p/bootstrap/css/index.html');
+}
+
+// File added: 3p/jquery/index.html
+function writefile_2() {
+	@$fp = fopen('3p/jquery/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('3p/jquery/index.html') && (sha1_file('3p/jquery/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: 3p/jquery/index.html');
+	$tmp = pathinfo('3p/jquery/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('3p/jquery/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('3p/jquery/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_2();
+if (!is_file('3p/jquery/index.html')) {
+	warn('File cannot be created (not existing): 3p/jquery/index.html');
+} else if (sha1_file('3p/jquery/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): 3p/jquery/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('3p/jquery/index.html', 0644)) {
+	warn('Could not change file permissions of 3p/jquery/index.html');
+}
+
+// File added: 3p/jstree/themes/default/index.html
+function writefile_3() {
+	@$fp = fopen('3p/jstree/themes/default/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('3p/jstree/themes/default/index.html') && (sha1_file('3p/jstree/themes/default/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: 3p/jstree/themes/default/index.html');
+	$tmp = pathinfo('3p/jstree/themes/default/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('3p/jstree/themes/default/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('3p/jstree/themes/default/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_3();
+if (!is_file('3p/jstree/themes/default/index.html')) {
+	warn('File cannot be created (not existing): 3p/jstree/themes/default/index.html');
+} else if (sha1_file('3p/jstree/themes/default/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): 3p/jstree/themes/default/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('3p/jstree/themes/default/index.html', 0644)) {
+	warn('Could not change file permissions of 3p/jstree/themes/default/index.html');
+}
+
+// File added: plugins/objectTypes/doi/img/index.html
+function writefile_4() {
+	@$fp = fopen('plugins/objectTypes/doi/img/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/objectTypes/doi/img/index.html') && (sha1_file('plugins/objectTypes/doi/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/objectTypes/doi/img/index.html');
+	$tmp = pathinfo('plugins/objectTypes/doi/img/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/objectTypes/doi/img/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/objectTypes/doi/img/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_4();
+if (!is_file('plugins/objectTypes/doi/img/index.html')) {
+	warn('File cannot be created (not existing): plugins/objectTypes/doi/img/index.html');
+} else if (sha1_file('plugins/objectTypes/doi/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/objectTypes/doi/img/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/objectTypes/doi/img/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/objectTypes/doi/img/index.html');
+}
+
+// File added: plugins/objectTypes/gs1/img/index.html
+function writefile_5() {
+	@$fp = fopen('plugins/objectTypes/gs1/img/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/objectTypes/gs1/img/index.html') && (sha1_file('plugins/objectTypes/gs1/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/objectTypes/gs1/img/index.html');
+	$tmp = pathinfo('plugins/objectTypes/gs1/img/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/objectTypes/gs1/img/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/objectTypes/gs1/img/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_5();
+if (!is_file('plugins/objectTypes/gs1/img/index.html')) {
+	warn('File cannot be created (not existing): plugins/objectTypes/gs1/img/index.html');
+} else if (sha1_file('plugins/objectTypes/gs1/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/objectTypes/gs1/img/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/objectTypes/gs1/img/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/objectTypes/gs1/img/index.html');
+}
+
+// File added: plugins/objectTypes/guid/img/index.html
+function writefile_6() {
+	@$fp = fopen('plugins/objectTypes/guid/img/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/objectTypes/guid/img/index.html') && (sha1_file('plugins/objectTypes/guid/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/objectTypes/guid/img/index.html');
+	$tmp = pathinfo('plugins/objectTypes/guid/img/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/objectTypes/guid/img/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/objectTypes/guid/img/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_6();
+if (!is_file('plugins/objectTypes/guid/img/index.html')) {
+	warn('File cannot be created (not existing): plugins/objectTypes/guid/img/index.html');
+} else if (sha1_file('plugins/objectTypes/guid/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/objectTypes/guid/img/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/objectTypes/guid/img/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/objectTypes/guid/img/index.html');
+}
+
+// File added: plugins/objectTypes/ipv4/img/index.html
+function writefile_7() {
+	@$fp = fopen('plugins/objectTypes/ipv4/img/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/objectTypes/ipv4/img/index.html') && (sha1_file('plugins/objectTypes/ipv4/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/objectTypes/ipv4/img/index.html');
+	$tmp = pathinfo('plugins/objectTypes/ipv4/img/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/objectTypes/ipv4/img/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/objectTypes/ipv4/img/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_7();
+if (!is_file('plugins/objectTypes/ipv4/img/index.html')) {
+	warn('File cannot be created (not existing): plugins/objectTypes/ipv4/img/index.html');
+} else if (sha1_file('plugins/objectTypes/ipv4/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/objectTypes/ipv4/img/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/objectTypes/ipv4/img/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/objectTypes/ipv4/img/index.html');
+}
+
+// File added: plugins/objectTypes/ipv6/img/index.html
+function writefile_8() {
+	@$fp = fopen('plugins/objectTypes/ipv6/img/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/objectTypes/ipv6/img/index.html') && (sha1_file('plugins/objectTypes/ipv6/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/objectTypes/ipv6/img/index.html');
+	$tmp = pathinfo('plugins/objectTypes/ipv6/img/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/objectTypes/ipv6/img/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/objectTypes/ipv6/img/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_8();
+if (!is_file('plugins/objectTypes/ipv6/img/index.html')) {
+	warn('File cannot be created (not existing): plugins/objectTypes/ipv6/img/index.html');
+} else if (sha1_file('plugins/objectTypes/ipv6/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/objectTypes/ipv6/img/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/objectTypes/ipv6/img/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/objectTypes/ipv6/img/index.html');
+}
+
+// File added: plugins/objectTypes/java/img/index.html
+function writefile_9() {
+	@$fp = fopen('plugins/objectTypes/java/img/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/objectTypes/java/img/index.html') && (sha1_file('plugins/objectTypes/java/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/objectTypes/java/img/index.html');
+	$tmp = pathinfo('plugins/objectTypes/java/img/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/objectTypes/java/img/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/objectTypes/java/img/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_9();
+if (!is_file('plugins/objectTypes/java/img/index.html')) {
+	warn('File cannot be created (not existing): plugins/objectTypes/java/img/index.html');
+} else if (sha1_file('plugins/objectTypes/java/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/objectTypes/java/img/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/objectTypes/java/img/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/objectTypes/java/img/index.html');
+}
+
+// File added: plugins/objectTypes/oid/img/index.html
+function writefile_10() {
+	@$fp = fopen('plugins/objectTypes/oid/img/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/objectTypes/oid/img/index.html') && (sha1_file('plugins/objectTypes/oid/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/objectTypes/oid/img/index.html');
+	$tmp = pathinfo('plugins/objectTypes/oid/img/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/objectTypes/oid/img/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/objectTypes/oid/img/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_10();
+if (!is_file('plugins/objectTypes/oid/img/index.html')) {
+	warn('File cannot be created (not existing): plugins/objectTypes/oid/img/index.html');
+} else if (sha1_file('plugins/objectTypes/oid/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/objectTypes/oid/img/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/objectTypes/oid/img/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/objectTypes/oid/img/index.html');
+}
+
+// File added: plugins/objectTypes/other/img/index.html
+function writefile_11() {
+	@$fp = fopen('plugins/objectTypes/other/img/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/objectTypes/other/img/index.html') && (sha1_file('plugins/objectTypes/other/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/objectTypes/other/img/index.html');
+	$tmp = pathinfo('plugins/objectTypes/other/img/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/objectTypes/other/img/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/objectTypes/other/img/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_11();
+if (!is_file('plugins/objectTypes/other/img/index.html')) {
+	warn('File cannot be created (not existing): plugins/objectTypes/other/img/index.html');
+} else if (sha1_file('plugins/objectTypes/other/img/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/objectTypes/other/img/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/objectTypes/other/img/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/objectTypes/other/img/index.html');
+}
+
+
+file_put_contents('oidplus_version.txt', "Revision 94\n");
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 94') err('Could not write to oidplus_version.txt!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+

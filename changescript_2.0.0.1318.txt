@@ -1,0 +1,70 @@
+<?php /* <ViaThinkSoftSignature>
+oSYPH4d0hLpnRnwRMJPx8WUfxz/LvcLm7/3lB/iNZHoUd8rMBao5JsVdschnrb4hQ
+p5iwOUeFTCyKWkHVkmHCnEuhNRdF2kBb1e4Ih3Sw0jOudf5cL370qnLjGAj43m071
+jbIsciajDRfSjTj5WaDHPi0F/q/klIA3hJfmYUXCM13n/iW8izTlLTxbwVWNEdwsW
+pUiBb+tfIwtm+5lA92Tq/dlBf7deK7RjPZCEmxZhFZ2m5f3IX/QPtSlv5hHCse1E4
+xwAMyse08Zr2lQAYcTietV/CDNM6Nh49UDuvBms5b8kRa0m/72x/jqcmqTtzS+aGV
+FmjOSQC7RuVtWKILIB5oetx5+7T+ofp65Hhc+XCiowoE5rYp5odCvbJPwUlPOC498
+g+TaL8Rz6uCdH2+7P1bSx4LCqyT1Oc1RIuWBoS08O11zenDaEPPBKYSiRiApdjvE3
+finxj5teqACvSfIGOl2S6mtG6hR/ILnhoqTpFfzh6LZdKLWMfHp41U4yQbSC9rWBz
+XsE07zd56a00r0CGFMkQKkjA4UNUQhNiTgLll+SRgZcpAXVzDqYnSOT26CDZ3dsW6
+EVtq3vaNOAW8saApYaVv2t3DOfBqua0ciM3hEv/rl+IaprA9mLM/F0AJCJOu6U5SV
+xP+ONvzhMKE6iG/OqYxVYpefEviAss04Mzr/ymR+huhjFfNSkl9ZDBBJpncrDQknB
+04fjUQHNJi4DaD6HXeWvcL116klbfrbkOWdT2R3vAxnWOev9N8EYfwOeUoi9Yugjo
+A5kwtN2Fkb3NFG90G5OZzof4HmkEmuUbQHfvzr2rLlmV09bjCTIsz5rIcpryxX+6c
+mXOwSbvVcDHA9feRwZchyGe8LXONflu8V/5Q+z+IRjqzFprFMpKAzCYwBMYRE1YiZ
+ID9zjYDpslQ1wDMFBD0Q2KncBrRMzXxCK0qsMQYnNXAbqhPjb+vpJPadhrmVA1Xw1
+LAIO3B5YRKTAn9oE85AJgNFzlXs5BGH9Wq3OxThAihaA0Am/5EOoDNU0HPT7RLC0h
+8VPM4azG5kHYaw9yourbyqwfTK/og55DBm2tDRtHSTbNDAu+C2xhVCCdgKWm/XrUh
+zxCPaUnz4jY32Pxwblq4ACBSgIiWOFLxpH/tteytkH1c92vb4sqO6lacNiPr9F3Kz
+fY/4NA5E0wyrpayAP3dFMvxRSpYEDzDNKnyKm/lMW9fhPeHDn4zTXkQJXpuJP69t1
+IZPq8zaEWWecmTyV0TP66YzVqgktgs9a/RhwNQ05zmsmzOSSdgVcKZwSc62X1dDcG
+IYtO00LvZ2nUGyRIbQEvkm4eli27MoIJ5lUyCN9ZLZR2mPlwLJ0ZomOnsSg44bQMk
+g==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('.version.php')) !== '<?php // Revision 1317') {
+	err('This update can only be applied to OIDplus version 2.0.0.1317!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+
+file_put_contents('.version.php', "<?php // Revision 1318\n");
+if (trim(@file_get_contents('.version.php')) !== '<?php // Revision 1318') err('Could not write to .version.php!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+

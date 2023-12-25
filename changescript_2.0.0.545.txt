@@ -1,0 +1,165 @@
+<?php /* <ViaThinkSoftSignature>
+SH6E8a1WM8IPJqJPiWOqogFWwkOosGoGVWC36BDSrtZ7zvvJdcBlT3S2W/X9e4qA7
+hb7Szi3xHn1q6Bw8V5w3GxVI9O+db7zbAIud0ve1UYBuxcW8RCrHQLzo3NMlwHRUT
+X5uivIP31flK3dxz8PNCNnoEf82+VkbnxjmW0+oiCFi9HuKzwY7UYYD3WlCbLsp8x
+YUQfe7L7j5ncveKmdwELEWX6JYmH2BzYlwUvtxxgDLVePhWcihjC29sAJ/bSYU7z/
+etmiVw+UDswCFksQ2zers9eSxW5X+JPx9GnWb84uyqYPDGcNapq9mMLFg06MXRGBm
+oPXv6AtCSbj3uH3URhRC5Ib1QBMr9qR+3jGPCfaT03qajFHW2stQLDZZl1zkSM79i
+DCXdt6370rDU6+jeOyu98vKH4sNwjUCgEg9XMaCZbFCuL6yy+axS2xnYLTxCilasJ
+UKfmUS37xCE+OsF1qP/Myi78Dk1EX6KrhEmdzVuKPhemraah13MTyyXhfrM6IM9QB
+PwAGsTyi+Gk6g33I4na7MAYjl5QkBCnOIFntocU11E3vtj3TadxDFRrgaSNbmywxP
+0gclgsTS6HN8R0Iy1B0TrQg7qb7UV7FvjBxrhCqWtlZFlc3AnBQS3yqOAje3tRU+J
+92ksZL3hc+0oKLmaCpRU0X6S+G4xQSV44UJ6hC7i7+6HFiJIxL6csGmWJYjAAH0ll
+2HEaxCDs9lhoA3UWg2+GXl1OVxMHaSyjoGx9fmdD8dAk99x8V3Ha2WgozspE4EzCs
+HeukvDvEiSSFI0qPLAQ30ecJA5lfI8V5+Pee8fSAFQvNa1i7NdgQIKnYftqsUMv3l
+6NLhcXZGIXK8HE3/S1/pGf+IRDMZrPub26ccT5dTYgTd0UuOU6qo+QmsHY8HODs+G
+ykjDptrEm66LU1liVgjX6SVblm7hFxNblhjxB9gJSykZgnrYttPf3Zg1m4xTbnbvc
+73ScAQ7ehqmRDlUYqOeAzCMea0QRZ1KEjQM9DptUzDU1f234+kmWR4l9BlkpK5G4E
+n1jW2nCRglCZIVM07KRbUPerDJPEK/eZEb95nPwldc/SwVUX4tNfwGDybF/dJ2HAp
+y6Egd4ZIhbHr9fFGxXQwP2zqHe4EIsIrN9Wsu+Aj2dQQY2s5G8NtF02UOwV9UCTNy
+6+N3M5WW0OEXr2Bwn2C/5ifcaOJHvI1IhQv9DlgUOM/EGk2Cz1OiX9OkGZKCfm5us
+/d5I7RVEhxE5TxZSH201VphjaQEP9bb6rKeovHzAcPic6tx646TR8oJiTvhpHyzA1
+Q1a+Dyr5Z4S4j47SPx5S/YHF/BuP4suz4g2YYa59p0AldMWdkZnuuhiH9eg6oA7ti
+Q==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 544') {
+	err('This update can only be applied to OIDplus version 2.0.0.544!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+// Files different: plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php
+function writefile_1() {
+	@$fp = fopen('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php', 'w');
+	@fwrite($fp, base64_decode('PD9waHAKCi8qCiAqIE9JRHBsdXMgMi4wCiAqIENvcHlyaWdodCAyMDE5IC0gMjAyMSBEYW5pZWwgTWFyc2NoYWxsLCBWaWFUaGlua1NvZnQKICoKICogTGljZW5zZWQgdW5kZXIgdGhlIEFwYWNoZSBMaWNlbnNlLCBWZXJzaW9uIDIuMCAodGhlICJMaWNlbnNlIik7'));
+	@fwrite($fp, base64_decode('CiAqIHlvdSBtYXkgbm90IHVzZSB0aGlzIGZpbGUgZXhjZXB0IGluIGNvbXBsaWFuY2Ugd2l0aCB0aGUgTGljZW5zZS4KICogWW91IG1heSBvYnRhaW4gYSBjb3B5IG9mIHRoZSBMaWNlbnNlIGF0CiAqCiAqICAgICBodHRwOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5z'));
+	@fwrite($fp, base64_decode('ZXMvTElDRU5TRS0yLjAKICoKICogVW5sZXNzIHJlcXVpcmVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIGFncmVlZCB0byBpbiB3cml0aW5nLCBzb2Z0d2FyZQogKiBkaXN0cmlidXRlZCB1bmRlciB0aGUgTGljZW5zZSBpcyBkaXN0cmlidXRlZCBvbiBhbiAiQVMgSVMi'));
+	@fwrite($fp, base64_decode('IEJBU0lTLAogKiBXSVRIT1VUIFdBUlJBTlRJRVMgT1IgQ09ORElUSU9OUyBPRiBBTlkgS0lORCwgZWl0aGVyIGV4cHJlc3Mgb3IgaW1wbGllZC4KICogU2VlIHRoZSBMaWNlbnNlIGZvciB0aGUgc3BlY2lmaWMgbGFuZ3VhZ2UgZ292ZXJuaW5nIHBlcm1pc3Npb25z'));
+	@fwrite($fp, base64_decode('IGFuZAogKiBsaW1pdGF0aW9ucyB1bmRlciB0aGUgTGljZW5zZS4KICovCgppZiAoIWRlZmluZWQoJ0lOU0lERV9PSURQTFVTJykpIGRpZSgpOwoKY2xhc3MgT0lEcGx1c1BhZ2VQdWJsaWNTZWFyY2ggZXh0ZW5kcyBPSURwbHVzUGFnZVBsdWdpblB1YmxpYyB7CgoJ'));
+	@fwrite($fp, base64_decode('cHVibGljIGZ1bmN0aW9uIGluaXQoJGh0bWw9dHJ1ZSkgewoJCU9JRHBsdXM6OmNvbmZpZygpLT5wcmVwYXJlQ29uZmlnS2V5KCdzZWFyY2hfbWluX3Rlcm1fbGVuZ3RoJywgJ01pbmltdW0gbGVuZ3RoIG9mIGEgc2VhcmNoIHRlcm0nLCAnMycsIE9JRHBsdXNDb25m'));
+	@fwrite($fp, base64_decode('aWc6OlBST1RFQ1RJT05fRURJVEFCTEUsIGZ1bmN0aW9uKCR2YWx1ZSkgewoJCQlpZiAoIWlzX251bWVyaWMoJHZhbHVlKSB8fCAoJHZhbHVlIDwgMCkpIHsKCQkJCXRocm93IG5ldyBPSURwbHVzRXhjZXB0aW9uKF9MKCdQbGVhc2UgZW50ZXIgYSB2YWxpZCB2YWx1'));
+	@fwrite($fp, base64_decode('ZS4nKSk7CgkJCX0KCQl9KTsKCX0KCglwcml2YXRlIGZ1bmN0aW9uIHByZXBhcmVTZWFyY2hQYXJhbXMoJiRwYXJhbXMsICRpc19zZWFyY2hpbmcpIHsKCQkkcGFyYW1zWyd0ZXJtJ10gPSBpc3NldCgkcGFyYW1zWyd0ZXJtJ10pID8gdHJpbSgkcGFyYW1zWyd0ZXJt'));
+	@fwrite($fp, base64_decode('J10pIDogJyc7CgkJJHBhcmFtc1snbmFtZXNwYWNlJ10gPSBpc3NldCgkcGFyYW1zWyduYW1lc3BhY2UnXSkgPyB0cmltKCRwYXJhbXNbJ25hbWVzcGFjZSddKSA6ICcnOwoKCQkvLyBEZWZhdWx0IGNyaXRlcmlhIHNlbGVjdGlvbjoKCQlpZiAoJGlzX3NlYXJjaGlu'));
+	@fwrite($fp, base64_decode('ZykgewoJCQkkcGFyYW1zWydzZWFyY2hfdGl0bGUnXSA9IGlzc2V0KCRwYXJhbXNbJ3NlYXJjaF90aXRsZSddKSAmJiAkcGFyYW1zWydzZWFyY2hfdGl0bGUnXTsKCQkJJHBhcmFtc1snc2VhcmNoX2Rlc2NyaXB0aW9uJ10gPSBpc3NldCgkcGFyYW1zWydzZWFyY2hf'));
+	@fwrite($fp, base64_decode('ZGVzY3JpcHRpb24nXSkgJiYgJHBhcmFtc1snc2VhcmNoX2Rlc2NyaXB0aW9uJ107CgkJCSRwYXJhbXNbJ3NlYXJjaF9hc24xaWQnXSA9IGlzc2V0KCRwYXJhbXNbJ3NlYXJjaF9hc24xaWQnXSkgJiYgJHBhcmFtc1snc2VhcmNoX2FzbjFpZCddOwoJCQkkcGFyYW1z'));
+	@fwrite($fp, base64_decode('WydzZWFyY2hfaXJpJ10gPSBpc3NldCgkcGFyYW1zWydzZWFyY2hfaXJpJ10pICYmICRwYXJhbXNbJ3NlYXJjaF9pcmknXTsKCQl9IGVsc2UgewoJCQkkcGFyYW1zWydzZWFyY2hfdGl0bGUnXSA9IHRydWU7CgkJCSRwYXJhbXNbJ3NlYXJjaF9kZXNjcmlwdGlvbidd'));
+	@fwrite($fp, base64_decode('ID0gZmFsc2U7CgkJCSRwYXJhbXNbJ3NlYXJjaF9hc24xaWQnXSA9IHRydWU7CgkJCSRwYXJhbXNbJ3NlYXJjaF9pcmknXSA9IHRydWU7CgkJfQoJfQoKCXByaXZhdGUgZnVuY3Rpb24gZG9TZWFyY2goJHBhcmFtcykgewoJCSRvdXRwdXQgPSAnJzsKCgkJLy8gTm90'));
+	@fwrite($fp, base64_decode('ZTogVGhlIFNRTCBjb2xsYXRpb24gZGVmaW5lcyBpZiBzZWFyY2ggaXMgY2FzZSBzZW5zaXRpdmUgb3IgY2FzZSBpbnNlbnNpdGl2ZQoKCQkkbWluX2xlbmd0aCA9IE9JRHBsdXM6OmNvbmZpZygpLT5nZXRWYWx1ZSgnc2VhcmNoX21pbl90ZXJtX2xlbmd0aCcpOwoK'));
+	@fwrite($fp, base64_decode('CQkkdGhpcy0+cHJlcGFyZVNlYXJjaFBhcmFtcygkcGFyYW1zLCB0cnVlKTsKCgkJaWYgKHN0cmxlbigkcGFyYW1zWyd0ZXJtJ10pID09IDApIHsKCQkJJG91dHB1dCAuPSAnPHA+PGZvbnQgY29sb3I9InJlZCI+Jy5fTCgnRXJyb3I6IFlvdSBtdXN0IGVudGVyIGEg'));
+	@fwrite($fp, base64_decode('c2VhcmNoIHRlcm0uJykuJzwvZm9udD48L3A+JzsKCQl9IGVsc2UgaWYgKHN0cmxlbigkcGFyYW1zWyd0ZXJtJ10pIDwgJG1pbl9sZW5ndGgpIHsKCQkJJG91dHB1dCAuPSAnPHA+PGZvbnQgY29sb3I9InJlZCI+Jy5fTCgnRXJyb3I6IFNlYXJjaCB0ZXJtIG1pbmlt'));
+	@fwrite($fp, base64_decode('dW0gbGVuZ3RoIGlzICUxIGNoYXJhY3RlcnMuJywkbWluX2xlbmd0aCkuJzwvZm9udD48L3A+JzsKCQl9IGVsc2UgewoJCQlpZiAoJHBhcmFtc1snbmFtZXNwYWNlJ10gPT0gJ29pZHBsdXM6cmEnKSB7CgkJCQkkb3V0cHV0IC49ICc8aDI+Jy5fTCgnU2VhcmNoIHJl'));
+	@fwrite($fp, base64_decode('c3VsdHMgZm9yIFJBICUxJyxodG1sZW50aXRpZXMoJHBhcmFtc1sndGVybSddKSkuJzwvaDI+JzsKCgkJCQkkc3FsX3doZXJlID0gYXJyYXkoKTsgJHByZXBfd2hlcmUgPSBhcnJheSgpOwoJCQkJJHNxbF93aGVyZVtdID0gImVtYWlsIGxpa2UgPyI7ICAgJHByZXBf'));
+	@fwrite($fp, base64_decode('d2hlcmVbXSA9ICclJy4kcGFyYW1zWyd0ZXJtJ10uJyUnOwoJCQkJJHNxbF93aGVyZVtdID0gInJhX25hbWUgbGlrZSA/IjsgJHByZXBfd2hlcmVbXSA9ICclJy4kcGFyYW1zWyd0ZXJtJ10uJyUnOwoKCQkJCWlmIChjb3VudCgkc3FsX3doZXJlKSA9PSAwKSAkc3Fs'));
+	@fwrite($fp, base64_decode('X3doZXJlW10gPSAnMT0wJzsKCQkJCSRyZXMgPSBPSURwbHVzOjpkYigpLT5xdWVyeSgic2VsZWN0ICogZnJvbSAjIyNyYSB3aGVyZSAoIi5pbXBsb2RlKCcgb3IgJywgJHNxbF93aGVyZSkuIikiLCAkcHJlcF93aGVyZSk7CgoJCQkJJGNvdW50ID0gMDsKCQkJCXdo'));
+	@fwrite($fp, base64_decode('aWxlICgkcm93ID0gJHJlcy0+ZmV0Y2hfb2JqZWN0KCkpIHsKCQkJCQkkZW1haWwgPSBzdHJfcmVwbGFjZSgnQCcsICcmJywgJHJvdy0+ZW1haWwpOwoJCQkJCSRvdXRwdXQgLj0gJzxwPjxhICcuT0lEcGx1czo6Z3VpKCktPmxpbmsoJ29pZHBsdXM6cmFpbmZvJCcu'));
+	@fwrite($fp, base64_decode('c3RyX3JlcGxhY2UoJ0AnLCcmJywkZW1haWwpKS4nPicuaHRtbGVudGl0aWVzKCRlbWFpbCkuJzwvYT46IDxiPicuaHRtbGVudGl0aWVzKCRyb3ctPnJhX25hbWUpLic8L2I+PC9wPic7CgkJCQkJJGNvdW50Kys7CgkJCQl9CgkJCQlpZiAoJGNvdW50ID09IDApIHsK'));
+	@fwrite($fp, base64_decode('CQkJCQkkb3V0cHV0IC49ICc8cD4nLl9MKCdOb3RoaW5nIGZvdW5kJykuJzwvcD4nOwoJCQkJfQoJCQl9IGVsc2UgewoJCQkJJG91dHB1dCAuPSAnPGgyPicuX0woJ1NlYXJjaCByZXN1bHRzIGZvciAlMSAoJTIpJyxodG1sZW50aXRpZXMoJHBhcmFtc1sndGVybSdd'));
+	@fwrite($fp, base64_decode('KSxodG1sZW50aXRpZXMoJHBhcmFtc1snbmFtZXNwYWNlJ10pKS4nPC9oMj4nOwoKCQkJCSRzcWxfd2hlcmUgPSBhcnJheSgpOyAkcHJlcF93aGVyZSA9IGFycmF5KCk7CgkJCQkkc3FsX3doZXJlW10gPSAiaWQgbGlrZSA/IjsgJHByZXBfd2hlcmVbXSA9ICclJy4k'));
+	@fwrite($fp, base64_decode('cGFyYW1zWyd0ZXJtJ10uJyUnOyAvLyBUT0RPOiBzaG91bGQgd2UgcmF0aGVyIGRvIGZpbmRGaXR0aW5nKCksIHNvIHdlIGNhbiBlLmcuIGZpbmQgR1VJRHMgd2l0aCBkaWZmZXJlbnQgbm90YXRpb24/CgkJCQlpZiAoJHBhcmFtc1sic2VhcmNoX3RpdGxlIl0pICAg'));
+	@fwrite($fp, base64_decode('ICAgIHsgJHNxbF93aGVyZVtdID0gInRpdGxlIGxpa2UgPyI7ICAgICAgICRwcmVwX3doZXJlW10gPSAnJScuJHBhcmFtc1sndGVybSddLiclJzsgfQoJCQkJaWYgKCRwYXJhbXNbInNlYXJjaF9kZXNjcmlwdGlvbiJdKSB7ICRzcWxfd2hlcmVbXSA9ICJkZXNjcmlw'));
+	@fwrite($fp, base64_decode('dGlvbiBsaWtlID8iOyAkcHJlcF93aGVyZVtdID0gJyUnLiRwYXJhbXNbJ3Rlcm0nXS4nJSc7IH0KCgkJCQlpZiAoJHBhcmFtc1sic2VhcmNoX2FzbjFpZCJdKSB7CgkJCQkJJHJlcyA9IE9JRHBsdXM6OmRiKCktPnF1ZXJ5KCJzZWxlY3QgKiBmcm9tICMjI2FzbjFp'));
+	@fwrite($fp, base64_decode('ZCB3aGVyZSBuYW1lIGxpa2UgPyIsIGFycmF5KCclJy4kcGFyYW1zWyd0ZXJtJ10uJyUnKSk7CgkJCQkJd2hpbGUgKCRyb3cgPSAkcmVzLT5mZXRjaF9vYmplY3QoKSkgewoJCQkJCQkkc3FsX3doZXJlW10gPSAiaWQgPSA/IjsgJHByZXBfd2hlcmVbXSA9ICRyb3ct'));
+	@fwrite($fp, base64_decode('Pm9pZDsKCQkJCQl9CgkJCQl9CgoJCQkJaWYgKCRwYXJhbXNbInNlYXJjaF9pcmkiXSkgewoJCQkJCSRyZXMgPSBPSURwbHVzOjpkYigpLT5xdWVyeSgic2VsZWN0ICogZnJvbSAjIyNpcmkgd2hlcmUgbmFtZSBsaWtlID8iLCBhcnJheSgnJScuJHBhcmFtc1sndGVy'));
+	@fwrite($fp, base64_decode('bSddLiclJykpOwoJCQkJCXdoaWxlICgkcm93ID0gJHJlcy0+ZmV0Y2hfb2JqZWN0KCkpIHsKCQkJCQkJJHNxbF93aGVyZVtdID0gImlkID0gPyI7ICRwcmVwX3doZXJlW10gPSAkcm93LT5vaWQ7CgkJCQkJfQoJCQkJfQoKCQkJCWlmIChjb3VudCgkc3FsX3doZXJl'));
+	@fwrite($fp, base64_decode('KSA9PSAwKSAkc3FsX3doZXJlW10gPSAnMT0wJzsKCQkJCWFycmF5X3Vuc2hpZnQoJHByZXBfd2hlcmUsICRwYXJhbXNbJ25hbWVzcGFjZSddLic6JScpOwoKCQkJCSRyZXMgPSBPSURwbHVzOjpkYigpLT5xdWVyeSgic2VsZWN0ICogZnJvbSAjIyNvYmplY3RzIHdo'));
+	@fwrite($fp, base64_decode('ZXJlIGlkIGxpa2UgPyBhbmQgKCIuaW1wbG9kZSgnIG9yICcsICRzcWxfd2hlcmUpLiIpIiwgJHByZXBfd2hlcmUpOwoKCQkJCSRjb3VudCA9IDA7CgkJCQl3aGlsZSAoJHJvdyA9ICRyZXMtPmZldGNoX29iamVjdCgpKSB7CgkJCQkJJG91dHB1dCAuPSAnPHA+PGEg'));
+	@fwrite($fp, base64_decode('Jy5PSURwbHVzOjpndWkoKS0+bGluaygkcm93LT5pZCkuJz4nLmh0bWxlbnRpdGllcygkcm93LT5pZCkuJzwvYT46IDxiPicuaHRtbGVudGl0aWVzKCRyb3ctPnRpdGxlKS4nPC9iPjwvcD4nOyAvLyBUT0RPOiBhbHNvIHNob3cgYXNuMWlkOyBoaWdobGlnaHQgc2Vh'));
+	@fwrite($fp, base64_decode('cmNoIG1hdGNoPwoJCQkJCSRjb3VudCsrOwoJCQkJfQoJCQkJaWYgKCRjb3VudCA9PSAwKSB7CgkJCQkJJG91dHB1dCAuPSAnPHA+Jy5fTCgnTm90aGluZyBmb3VuZCcpLic8L3A+JzsKCQkJCX0KCQkJfQoJCX0KCgkJcmV0dXJuICRvdXRwdXQ7Cgl9CgoJcHVibGlj'));
+	@fwrite($fp, base64_decode('IGZ1bmN0aW9uIGFjdGlvbigkYWN0aW9uSUQsICRwYXJhbXMpIHsKCgkJaWYgKCRhY3Rpb25JRCA9PSAnc2VhcmNoJykgewoJCQkvLyBTZWFyY2ggd2l0aCBKYXZhU2NyaXB0L0FKQVgKCQkJJHJldCA9ICR0aGlzLT5kb1NlYXJjaCgkcGFyYW1zKTsKCQkJcmV0dXJu'));
+	@fwrite($fp, base64_decode('IGFycmF5KCJzdGF0dXMiID0+IDAsICJvdXRwdXQiID0+ICRyZXQpOwoJCX0KCgl9CgoJcHVibGljIGZ1bmN0aW9uIGd1aSgkaWQsICYkb3V0LCAmJGhhbmRsZWQpIHsKCQlpZiAoZXhwbG9kZSgnJCcsJGlkKVswXSA9PSAnb2lkcGx1czpzZWFyY2gnKSB7CgkJCSRo'));
+	@fwrite($fp, base64_decode('YW5kbGVkID0gdHJ1ZTsKCgkJCSRvdXRbJ3RpdGxlJ10gPSBfTCgnU2VhcmNoJyk7CgkJCSRvdXRbJ2ljb24nXSA9IGZpbGVfZXhpc3RzKF9fRElSX18uJy9pY29uX2JpZy5wbmcnKSA/IE9JRHBsdXM6OndlYnBhdGgoX19ESVJfXykuJ2ljb25fYmlnLnBuZycgOiAn'));
+	@fwrite($fp, base64_decode('JzsKCgkJCSRvdXRbJ3RleHQnXSA9ICcnOwoKCQkJdHJ5IHsKCQkJCSRwYXJhbXMgPSAkX1BPU1Q7CgoJCQkJJHRoaXMtPnByZXBhcmVTZWFyY2hQYXJhbXMoJHBhcmFtcywgaXNzZXQoJHBhcmFtc1snc2VhcmNoJ10pKTsKCgkJCQkkb3V0Wyd0ZXh0J10gLj0gJzxm'));
+	@fwrite($fp, base64_decode('b3JtIGlkPSJzZWFyY2hGb3JtIiBhY3Rpb249Ij9nb3RvPW9pZHBsdXM6c2VhcmNoIiBtZXRob2Q9IlBPU1QiPgoJCQkJICAgICAgICAgICAgICAgICA8aW5wdXQgdHlwZT0iaGlkZGVuIiBuYW1lPSJzZWFyY2giIHZhbHVlPSIxIj4KCQkJCSAgICAgICAgICAgICAg'));
+	@fwrite($fp, base64_decode('ICAgJy5fTCgnU2VhcmNoIGZvcicpLic6IDxpbnB1dCB0eXBlPSJ0ZXh0IiBpZD0idGVybSIgbmFtZT0idGVybSIgdmFsdWU9IicuaHRtbGVudGl0aWVzKCRwYXJhbXNbJ3Rlcm0nXSkuJyI+PGJyPjxicj4KCQkJCSAgICAgICAgICAgICAgICAgPHNjcmlwdD4KCQkJ'));
+	@fwrite($fp, base64_decode('CSAgICAgICAgICAgICAgICAgZnVuY3Rpb24gc2VhcmNoTnNTZWxlY3QobnMpIHsKCQkJCSAgICAgICAgICAgICAgICAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJzZWFyY2hfb3B0aW9uc19vaWQiKS5zdHlsZS5kaXNwbGF5ID0gKG5zID09ICJvaWQiKSA/'));
+	@fwrite($fp, base64_decode('ICJibG9jayIgOiAibm9uZSI7CgkJCQkgICAgICAgICAgICAgICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgic2VhcmNoX29wdGlvbnNfb2JqZWN0Iikuc3R5bGUuZGlzcGxheSA9IChucyA9PSAib2lkcGx1czpyYSIpID8gIm5vbmUiIDogImJsb2NrIjsK'));
+	@fwrite($fp, base64_decode('CQkJCSAgICAgICAgICAgICAgICAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJzZWFyY2hfb3B0aW9uc19yYSIpLnN0eWxlLmRpc3BsYXkgPSAobnMgPT0gIm9pZHBsdXM6cmEiKSA/ICJibG9jayIgOiAibm9uZSI7CgkJCQkgICAgICAgICAgICAgICAgIH0K'));
+	@fwrite($fp, base64_decode('CQkJCSAgICAgICAgICAgICAgICAgJCggZG9jdW1lbnQgKS5yZWFkeShmdW5jdGlvbigpIHsKCQkJCSAgICAgICAgICAgICAgICAgICAgIHNlYXJjaE5zU2VsZWN0KGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJuYW1lc3BhY2UiKS52YWx1ZSk7CgkJCQkgICAgICAg'));
+	@fwrite($fp, base64_decode('ICAgICAgICAgIH0pOwoJCQkJICAgICAgICAgICAgICAgICA8L3NjcmlwdD4KCQkJCSAgICAgICAgICAgICAgICAgJy5fTCgnU2VhcmNoIGluJykuJzogPHNlbGVjdCBuYW1lPSJuYW1lc3BhY2UiIGlkPSJuYW1lc3BhY2UiIG9uY2hhbmdlPSJzZWFyY2hOc1NlbGVj'));
+	@fwrite($fp, base64_decode('dCh0aGlzLnZhbHVlKTsiPjxicj48YnI+JzsKCgkJCQlmb3JlYWNoIChPSURwbHVzOjpnZXRFbmFibGVkT2JqZWN0VHlwZXMoKSBhcyAkb3QpIHsKCQkJCQkkb3V0Wyd0ZXh0J10gLj0gJzxvcHRpb24gdmFsdWU9IicuaHRtbGVudGl0aWVzKCRvdDo6bnMoKSkuJyIn'));
+	@fwrite($fp, base64_decode('LigoJHBhcmFtc1snbmFtZXNwYWNlJ10gPT0gJG90OjpucygpKSA/ICcgc2VsZWN0ZWQnIDogJycpLic+Jy5odG1sZW50aXRpZXMoJG90OjpvYmplY3RUeXBlVGl0bGUoKSkuJzwvb3B0aW9uPic7CgkJCQl9CgkJCQkkb3V0Wyd0ZXh0J10gLj0gJzxvcHRpb24gdmFs'));
+	@fwrite($fp, base64_decode('dWU9Im9pZHBsdXM6cmEiJy4oKCRwYXJhbXNbJ25hbWVzcGFjZSddID09ICdvaWRwbHVzOnJhJykgPyAnIHNlbGVjdGVkJyA6ICcnKS4nPicuX0woJ1JlZ2lzdHJhdGlvbiBBdXRob3JpdHknKS4nPC9vcHRpb24+CgkJCQkgICAgICAgICAgICAgICAgIDwvc2VsZWN0'));
+	@fwrite($fp, base64_decode('Pjxicj48YnI+CgkJCQk8ZGl2IGlkPSJzZWFyY2hfb3B0aW9uc19yYSI+CgkJCQk8IS0tIFRPRE86IFJBIHNwZWNpZmljIHNlbGVjdGlvbiBjcml0ZXJpYXMgLS0+CgkJCQk8L2Rpdj4KCQkJCTxkaXYgaWQ9InNlYXJjaF9vcHRpb25zX29iamVjdCI+CgkJCQkgICAg'));
+	@fwrite($fp, base64_decode('ICAgICAgICA8aW5wdXQgdHlwZT0iY2hlY2tib3giIG5hbWU9InNlYXJjaF90aXRsZSIgaWQ9InNlYXJjaF90aXRsZSIgdmFsdWU9IjEiJy4oJHBhcmFtc1sic2VhcmNoX3RpdGxlIl0gPyAnIGNoZWNrZWQnIDogJycpLic+IDxsYWJlbCBmb3I9InNlYXJjaF90aXRs'));
+	@fwrite($fp, base64_decode('ZSI+Jy5fTCgnU2VhcmNoIGluIGZpZWxkICJUaXRsZSInKS4nPC9sYWJlbD48YnI+CgkJCQkgICAgICAgICAgICA8aW5wdXQgdHlwZT0iY2hlY2tib3giIG5hbWU9InNlYXJjaF9kZXNjcmlwdGlvbiIgaWQ9InNlYXJjaF9kZXNjcmlwdGlvbiIgdmFsdWU9IjEiJy4o'));
+	@fwrite($fp, base64_decode('JHBhcmFtc1sic2VhcmNoX2Rlc2NyaXB0aW9uIl0gPyAnIGNoZWNrZWQnIDogJycpLic+IDxsYWJlbCBmb3I9InNlYXJjaF9kZXNjcmlwdGlvbiI+Jy5fTCgnU2VhcmNoIGluIGZpZWxkICJEZXNjcmlwdGlvbiInKS4nPC9sYWJlbD48YnI+CgkJCQk8ZGl2IGlkPSJz'));
+	@fwrite($fp, base64_decode('ZWFyY2hfb3B0aW9uc19vaWQiPgoJCQkgICAgICAgICAgICA8aW5wdXQgdHlwZT0iY2hlY2tib3giIG5hbWU9InNlYXJjaF9hc24xaWQiIGlkPSJzZWFyY2hfYXNuMWlkIiB2YWx1ZT0iMSInLigkcGFyYW1zWyJzZWFyY2hfYXNuMWlkIl0gPyAnIGNoZWNrZWQnIDog'));
+	@fwrite($fp, base64_decode('JycpLic+IDxsYWJlbCBmb3I9InNlYXJjaF9hc24xaWQiPicuX0woJ1NlYXJjaCBpbiBmaWVsZCAiQVNOLjEgaWRlbnRpZmllciIgKG9ubHkgT0lEcyknKS4nPC9sYWJlbD48YnI+CgkJCSAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJjaGVja2JveCIgbmFtZT0ic2Vh'));
+	@fwrite($fp, base64_decode('cmNoX2lyaSIgaWQ9InNlYXJjaF9pcmkiIHZhbHVlPSIxIicuKCRwYXJhbXNbInNlYXJjaF9pcmkiXSA/ICcgY2hlY2tlZCcgOiAnJykuJz4gPGxhYmVsIGZvcj0ic2VhcmNoX2lyaSI+Jy5fTCgnU2VhcmNoIGluIGZpZWxkICJVbmljb2RlIGxhYmVsIiAob25seSBP'));
+	@fwrite($fp, base64_decode('SURzKScpLic8L2xhYmVsPjxicj4KCQkJCTwvZGl2PgoJCQkJPC9kaXY+CgkJCQkgPGJyPgoKCQkJCTxpbnB1dCB0eXBlPSJzdWJtaXQiIHZhbHVlPSInLl9MKCdTZWFyY2gnKS4nIiBvbmNsaWNrPSJyZXR1cm4gc2VhcmNoX2J1dHRvbl9jbGljaygpIj4KCQkJCTwv'));
+	@fwrite($fp, base64_decode('Zm9ybT4nOwoKCQkJCSRvdXRbJ3RleHQnXSAuPSAnPGRpdiBpZD0ic2VhcmNoX291dHB1dCI+JzsgLy8gd2lsbCBiZSBmaWxsZWQgd2l0aCBlaXRoZXIgQUpBWCBvciBzdGF0aWNseSAoSFRNTCBmb3JtIHN1Ym1pdCkKCQkJCWlmIChpc3NldCgkcGFyYW1zWydzZWFy'));
+	@fwrite($fp, base64_decode('Y2gnXSkpIHsKCQkJCQkvLyBTZWFyY2ggd2l0aCBOb0pTL0hUTUwKCQkJCQkkb3V0Wyd0ZXh0J10gLj0gJHRoaXMtPmRvU2VhcmNoKCRwYXJhbXMpOwoJCQkJfQoJCQkJJG91dFsndGV4dCddIC49ICc8L2Rpdj4nOwoJCQl9IGNhdGNoIChFeGNlcHRpb24gJGUpIHsK'));
+	@fwrite($fp, base64_decode('CQkJCSRvdXRbJ3RleHQnXSA9IF9MKCdFcnJvcjogJTEnLCRlLT5nZXRNZXNzYWdlKCkpOwoJCQl9CgkJfQoJfQoKCXB1YmxpYyBmdW5jdGlvbiBwdWJsaWNTaXRlbWFwKCYkb3V0KSB7CgkJJG91dFtdID0gJ29pZHBsdXM6c2VhcmNoJzsKCX0KCglwdWJsaWMgZnVu'));
+	@fwrite($fp, base64_decode('Y3Rpb24gdHJlZSgmJGpzb24sICRyYV9lbWFpbD1udWxsLCAkbm9uanM9ZmFsc2UsICRyZXFfZ290bz0nJykgewoJCWlmIChmaWxlX2V4aXN0cyhfX0RJUl9fLicvdHJlZWljb24ucG5nJykpIHsKCQkJJHRyZWVfaWNvbiA9IE9JRHBsdXM6OndlYnBhdGgoX19ESVJf'));
+	@fwrite($fp, base64_decode('XykuJ3RyZWVpY29uLnBuZyc7CgkJfSBlbHNlIHsKCQkJJHRyZWVfaWNvbiA9IG51bGw7IC8vIGRlZmF1bHQgaWNvbiAoZm9sZGVyKQoJCX0KCgkJJGpzb25bXSA9IGFycmF5KAoJCQknaWQnID0+ICdvaWRwbHVzOnNlYXJjaCcsCgkJCSdpY29uJyA9PiAkdHJlZV9p'));
+	@fwrite($fp, base64_decode('Y29uLAoJCQkndGV4dCcgPT4gX0woJ1NlYXJjaCcpCgkJKTsKCgkJcmV0dXJuIHRydWU7Cgl9CgoJcHVibGljIGZ1bmN0aW9uIHRyZWVfc2VhcmNoKCRyZXF1ZXN0KSB7CgkJcmV0dXJuIGZhbHNlOwoJfQp9Cg=='));
+	@fclose($fp);
+}
+if (!is_file('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php')) {
+	warn('File has vanished! Will re-create it: plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php');
+	writefile_1();
+	if (!is_file('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php')) {
+		warn('File cannot be created (not existing): plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php');
+	} else if (sha1_file('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php') != '5742d811d7d35d69da0693f3cfd4ed17f0fc580d') {
+		warn('File cannot be created (checksum mismatch): plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php');
+	} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php', 0644)) {
+		warn('Could not change file permissions of plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php');
+	}
+} else {
+	if (@sha1_file('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php') !== '5742d811d7d35d69da0693f3cfd4ed17f0fc580d') {
+		if (@sha1_file('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php') !== 'efc636e896b0c622cab70e4feb2e9877c46cab8b') {
+			warn('File was modified. Will overwrite the changes now: plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php');
+			$tmp = pathinfo('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php');
+			$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+			warn('Creating a backup as '.$backup_name);
+			if (!@copy('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php', $backup_name)) {
+				warn('Creation of backup failed');
+			}
+		}
+		writefile_1();
+		if (@sha1_file('plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php') !== '5742d811d7d35d69da0693f3cfd4ed17f0fc580d') {
+			warn('File cannot be written (checksum mismatch): plugins/publicPages/300_search/OIDplusPagePublicSearch.class.php');
+		}
+	}
+}
+
+
+file_put_contents('oidplus_version.txt', "Revision 545\n");
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 545') err('Could not write to oidplus_version.txt!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+

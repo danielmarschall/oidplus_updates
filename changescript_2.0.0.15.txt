@@ -1,0 +1,297 @@
+<?php /* <ViaThinkSoftSignature>
+TRp2Pot6flGA93XEMu73wrdqYWWyL4x5KujGdfSx6sgE+wlKCgRH4ZEKgeHV3rOm6
+U/Sb+jalWG0h0nFhWNQmb4Hq5O6Xud66U/8ZOjj8KDQDMrqutzyIy1ZQLMNczWYtm
+49u1iAuTgDgIyv1xnX2ecA56r3Olref4tDkM2Supz0xfbl+Fa8teZiHziNL6nXtMi
+6c3wq98sL6ASr1CKe9h9amy40DSXOM9uVfO8jVdaMvV7GOCwtLbbVsUhnm7ilzVFY
+6QOAKSlJkYTiUxwYMJalLX+lHyaL1lAV8sIhPuuvQijDcvYb6RtEoCiS8oM9ZZPUt
+1fnzcsGQ3n0BAtWGsogKTKBFyUS+lIR8Zc43nkn74w6IujmJ5Iqf5gqnp2r1ZqSyR
+/s4BGtNmo7ZmD6cPd7QYPwYxpnp4XMxNNj8A17zaRWKEpXHBckkmZnqJPM8yMff+p
++eWGUWfa0uWtibLlOeRHSChqovMl5LmR+99GXAxVm29uSl10Tamayfu+e7pAqLI0M
+sKMLr+I8HqJS/XD4qfTKFH5dZjh1SR0e0gGvhvJqvvo+t5o2nB/nQo1N32zx6/bYr
+eH4q7zqoDCX7gV06+iNQfVYpQjXd3eGAI/J1G6nbyytKhRFpmgT58yXFPvbiL6Z1N
+qqTg/xmfXDdewp03sHfGwLxEepnHJJaMMbo5tv7aJ0RgegcaI3uZjb3+Oqm2dvur1
+wla+fA/kNnCCpZxTNY63zre8B0hnGy4U6d8bjhZDZ6y3NvuZp3nfZzyxdTHIyo1oA
+VGAVB8/NQuxePNNH6qI1M8pkZFigKINjaR/YM/fcNMkOdBAjv5vBOoVW6cPM9JOES
+C3+pLE0f8rwXM7DtuhLB2afx2rDtEe4EcaGzAjgbZ3UHm17A2yt+h+KcELmF+N2Xp
+MZjTAChciycyydyFYvRbwt7SfUlbYM+tdLH8+0ui/O5JmRflpyh7ntDiv26pfq+C4
+bfzk9/dhg8G5Rl7jHpzXXb/D9JTNkhDu5oklJXpj9kA3gm5Q9ZDadA+dvX/9NkQuF
+sWKLpFpcKUnkVAJYCbx23OQHv8s2XWdih0tX9lKwsPhzzSX73QmK+DYZUX+3cybD4
+Ln8HtZ249p1AKGPvB0+uK+Ph7dgDUP7KEFhyQqrotzC3byEmEIhCcP/6Nc+BRn9P9
+uoB6UonidqMxyH/ZAvg70EEfTT5PDVNe9JmQEk1SJmyoxiv5CuJ/jqr2edgTmSpcq
++pA3LMirm1qFKjbGg4SCA3vP3L6vFkm7+SU3aajhuwbog7TpdWA9+wKbXWCshLvoQ
+WGhTFVznxb0XuagMwZyVFzkLnjhCUJn0pZeJqh7VGXco2S/WlH9lr9hRIqbFmoBeS
+g==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 14') {
+	err('This update can only be applied to OIDplus version 2.0.0.14!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+// Dir added: plugins/adminPages/100_wellknown_oids
+@mkdir('plugins/adminPages/100_wellknown_oids');
+if (!is_dir('plugins/adminPages/100_wellknown_oids')) {
+	warn('Directory could not be created: plugins/adminPages/100_wellknown_oids');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/adminPages/100_wellknown_oids', 0755)) {
+	warn('Could not change directory permissions of plugins/adminPages/100_wellknown_oids');
+}
+
+// File added: plugins/adminPages/100_wellknown_oids/action.inc.php
+function writefile_1() {
+	@$fp = fopen('plugins/adminPages/100_wellknown_oids/action.inc.php', 'w');
+	@fwrite($fp, base64_decode('PD9waHAKCi8qCiAqIE9JRHBsdXMgMi4wCiAqIENvcHlyaWdodCAyMDE5IERhbmllbCBNYXJzY2hhbGwsIFZpYVRoaW5rU29mdAogKgogKiBMaWNlbnNlZCB1bmRlciB0aGUgQXBhY2hlIExpY2Vuc2UsIFZlcnNpb24gMi4wICh0aGUgIkxpY2Vuc2UiKTsKICogeW91'));
+	@fwrite($fp, base64_decode('IG1heSBub3QgdXNlIHRoaXMgZmlsZSBleGNlcHQgaW4gY29tcGxpYW5jZSB3aXRoIHRoZSBMaWNlbnNlLgogKiBZb3UgbWF5IG9idGFpbiBhIGNvcHkgb2YgdGhlIExpY2Vuc2UgYXQKICoKICogICAgIGh0dHA6Ly93d3cuYXBhY2hlLm9yZy9saWNlbnNlcy9MSUNF'));
+	@fwrite($fp, base64_decode('TlNFLTIuMAogKgogKiBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsIHNvZnR3YXJlCiAqIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSBMaWNlbnNlIGlzIGRpc3RyaWJ1dGVkIG9uIGFuICJBUyBJUyIgQkFTSVMs'));
+	@fwrite($fp, base64_decode('CiAqIFdJVEhPVVQgV0FSUkFOVElFUyBPUiBDT05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIgZXhwcmVzcyBvciBpbXBsaWVkLgogKiBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZSBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kCiAq'));
+	@fwrite($fp, base64_decode('IGxpbWl0YXRpb25zIHVuZGVyIHRoZSBMaWNlbnNlLgogKi8KCi8vIE5vdGhpbmcKCg=='));
+	@fclose($fp);
+}
+if (is_file('plugins/adminPages/100_wellknown_oids/action.inc.php') && (sha1_file('plugins/adminPages/100_wellknown_oids/action.inc.php') != '4ce7d672b9974050d347d5a5fbb4754447c0026a')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/adminPages/100_wellknown_oids/action.inc.php');
+	$tmp = pathinfo('plugins/adminPages/100_wellknown_oids/action.inc.php');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/adminPages/100_wellknown_oids/action.inc.php')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/adminPages/100_wellknown_oids/action.inc.php', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_1();
+if (!is_file('plugins/adminPages/100_wellknown_oids/action.inc.php')) {
+	warn('File cannot be created (not existing): plugins/adminPages/100_wellknown_oids/action.inc.php');
+} else if (sha1_file('plugins/adminPages/100_wellknown_oids/action.inc.php') != '4ce7d672b9974050d347d5a5fbb4754447c0026a') {
+	warn('File cannot be created (checksum mismatch): plugins/adminPages/100_wellknown_oids/action.inc.php');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/adminPages/100_wellknown_oids/action.inc.php', 0644)) {
+	warn('Could not change file permissions of plugins/adminPages/100_wellknown_oids/action.inc.php');
+}
+
+// File added: plugins/adminPages/100_wellknown_oids/gui.inc.php
+function writefile_2() {
+	@$fp = fopen('plugins/adminPages/100_wellknown_oids/gui.inc.php', 'w');
+	@fwrite($fp, base64_decode('PD9waHAKCi8qCiAqIE9JRHBsdXMgMi4wCiAqIENvcHlyaWdodCAyMDE5IERhbmllbCBNYXJzY2hhbGwsIFZpYVRoaW5rU29mdAogKgogKiBMaWNlbnNlZCB1bmRlciB0aGUgQXBhY2hlIExpY2Vuc2UsIFZlcnNpb24gMi4wICh0aGUgIkxpY2Vuc2UiKTsKICogeW91'));
+	@fwrite($fp, base64_decode('IG1heSBub3QgdXNlIHRoaXMgZmlsZSBleGNlcHQgaW4gY29tcGxpYW5jZSB3aXRoIHRoZSBMaWNlbnNlLgogKiBZb3UgbWF5IG9idGFpbiBhIGNvcHkgb2YgdGhlIExpY2Vuc2UgYXQKICoKICogICAgIGh0dHA6Ly93d3cuYXBhY2hlLm9yZy9saWNlbnNlcy9MSUNF'));
+	@fwrite($fp, base64_decode('TlNFLTIuMAogKgogKiBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsIHNvZnR3YXJlCiAqIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSBMaWNlbnNlIGlzIGRpc3RyaWJ1dGVkIG9uIGFuICJBUyBJUyIgQkFTSVMs'));
+	@fwrite($fp, base64_decode('CiAqIFdJVEhPVVQgV0FSUkFOVElFUyBPUiBDT05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIgZXhwcmVzcyBvciBpbXBsaWVkLgogKiBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZSBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kCiAq'));
+	@fwrite($fp, base64_decode('IGxpbWl0YXRpb25zIHVuZGVyIHRoZSBMaWNlbnNlLgogKi8KCmlmICgkaWQgPT09ICdvaWRwbHVzOndlbGxfa25vd25fb2lkcycpIHsKCSRoYW5kbGVkID0gdHJ1ZTsKCSRvdXRbJ3RpdGxlJ10gPSAnV2VsbCBrbm93biBPSURzJzsKCglpZiAoIU9JRHBsdXM6OmF1'));
+	@fwrite($fp, base64_decode('dGhVdGlscygpOjppc0FkbWluTG9nZ2VkSW4oKSkgewoJCSRvdXRbJ3RleHQnXSAuPSAnPHA+WW91IG5lZWQgdG8gPGEgaHJlZj0iP2dvdG89b2lkcGx1czpsb2dpbiI+bG9nIGluPC9hPiBhcyBhZG1pbmlzdHJhdG9yLjwvcD4nOwoJfSBlbHNlIHsKCgkJJG91dFsn'));
+	@fwrite($fp, base64_decode('dGV4dCddID0gJzxwPjxhYmJyIHRpdGxlPSJUaGVzZSBJRCBuYW1lcyBjYW4gb25seSBiZSBlZGl0ZWQgaW4gdGhlIGRhdGFiYXNlIGRpcmVjdGx5IChUYWJsZXMgJy5PSURQTFVTX1RBQkxFTkFNRV9QUkVGSVguJ2FzbjFpZCBhbmQgJy5PSURQTFVTX1RBQkxFTkFN'));
+	@fwrite($fp, base64_decode('RV9QUkVGSVguJ2lyaSkuIFVzdWFsbHksIHRoZXJlIGlzIG5vIG5lZWQgdG8gZG8gdGhpcywgdGhvdWdoLiI+SG93IHRvIGVkaXQgdGhlc2UgSURzPzwvYWJicj48L3A+JzsKCgkJJG91dFsndGV4dCddIC49ICc8ZGl2IGNsYXNzPSJjb250YWluZXIgYm94Ij48ZGl2'));
+	@fwrite($fp, base64_decode('IGlkPSJzdWJvaWRfdGFibGUiIGNsYXNzPSJ0YWJsZS1yZXNwb25zaXZlIj4nOwoJCSRvdXRbJ3RleHQnXSAuPSAnPHRhYmxlIGNsYXNzPSJ0YWJsZSB0YWJsZS1ib3JkZXJlZCB0YWJsZS1zdHJpcGVkIj4nOwoJCSRvdXRbJ3RleHQnXSAuPSAnCTx0cj4nOwoJCSRv'));
+	@fwrite($fp, base64_decode('dXRbJ3RleHQnXSAuPSAnCSAgICAgPHRoPk9JRDwvdGg+JzsKCQkkb3V0Wyd0ZXh0J10gLj0gJwkgICAgIDx0aD5BU04uMSBpZGVudGlmaWVycyAoY29tbWEgc2VwLik8L3RoPic7CgkJJG91dFsndGV4dCddIC49ICcJICAgICA8dGg+SVJJIGlkZW50aWZpZXJzIChj'));
+	@fwrite($fp, base64_decode('b21tYSBzZXAuKTwvdGg+JzsKCQkkb3V0Wyd0ZXh0J10gLj0gJwk8L3RyPic7CgoJCSRyZXMgPSBPSURwbHVzOjpkYigpLT5xdWVyeSgic2VsZWN0IG9pZCBmcm9tICIuT0lEUExVU19UQUJMRU5BTUVfUFJFRklYLiJhc24xaWQgd2hlcmUgd2VsbF9rbm93biA9IDEg'));
+	@fwrite($fp, base64_decode('dW5pb24gc2VsZWN0IG9pZCBmcm9tICIuT0lEUExVU19UQUJMRU5BTUVfUFJFRklYLiJpcmkgd2hlcmUgd2VsbF9rbm93biA9IDEgb3JkZXIgYnkgIi5PSURwbHVzOjpkYigpLT5uYXRPcmRlcignb2lkJykpOwoJCXdoaWxlICgkcm93ID0gT0lEcGx1czo6ZGIoKS0+'));
+	@fwrite($fp, base64_decode('ZmV0Y2hfYXJyYXkoJHJlcykpIHsKCgkJCSRhc24xaWRzID0gYXJyYXkoKTsKCQkJJHJlczIgPSBPSURwbHVzOjpkYigpLT5xdWVyeSgic2VsZWN0IG5hbWUgZnJvbSAiLk9JRFBMVVNfVEFCTEVOQU1FX1BSRUZJWC4iYXNuMWlkIHdoZXJlIG9pZCA9ICciLiRyb3db'));
+	@fwrite($fp, base64_decode('J29pZCddLiInIik7CgkJCXdoaWxlICgkcm93MiA9IE9JRHBsdXM6OmRiKCktPmZldGNoX2FycmF5KCRyZXMyKSkgewoJCQkJJGFzbjFpZHNbXSA9ICRyb3cyWyduYW1lJ107CgkJCX0KCgkJCSRpcmlzID0gYXJyYXkoKTsKCQkJJHJlczIgPSBPSURwbHVzOjpkYigp'));
+	@fwrite($fp, base64_decode('LT5xdWVyeSgic2VsZWN0IG5hbWUsIGxvbmdhcmMgZnJvbSAiLk9JRFBMVVNfVEFCTEVOQU1FX1BSRUZJWC4iaXJpIHdoZXJlIG9pZCA9ICciLiRyb3dbJ29pZCddLiInIik7CgkJCXdoaWxlICgkcm93MiA9IE9JRHBsdXM6OmRiKCktPmZldGNoX2FycmF5KCRyZXMy'));
+	@fwrite($fp, base64_decode('KSkgewoJCQkJJGlyaXNbXSA9ICRyb3cyWyduYW1lJ10uKCRyb3cyWydsb25nYXJjJ10gPyAnIChsb25nIGFyYyknIDogJycpOwoJCQl9CgoJCQkkb3V0Wyd0ZXh0J10gLj0gJzx0cj4nOwoJCQkkb3V0Wyd0ZXh0J10gLj0gJyAgICAgPHRkPicuaHRtbGVudGl0aWVz'));
+	@fwrite($fp, base64_decode('KGV4cGxvZGUoJzonLCRyb3dbJ29pZCddKVsxXSkuJzwvdGQ+JzsKCQkJJG91dFsndGV4dCddIC49ICcgICAgIDx0ZD4nLmh0bWxlbnRpdGllcyhpbXBsb2RlKCcsICcsICRhc24xaWRzKSkuJzwvdGQ+JzsKCQkJJG91dFsndGV4dCddIC49ICcgICAgIDx0ZD4nLmh0'));
+	@fwrite($fp, base64_decode('bWxlbnRpdGllcyhpbXBsb2RlKCcsICcsICRpcmlzKSkuJzwvdGQ+JzsKCQkJJG91dFsndGV4dCddIC49ICc8L3RyPic7CgkJfQoKCQkkb3V0Wyd0ZXh0J10gLj0gJzwvdGFibGU+JzsKCQkkb3V0Wyd0ZXh0J10gLj0gJzwvZGl2PjwvZGl2Pic7Cgl9Cn0K'));
+	@fclose($fp);
+}
+if (is_file('plugins/adminPages/100_wellknown_oids/gui.inc.php') && (sha1_file('plugins/adminPages/100_wellknown_oids/gui.inc.php') != '4053fd319fef255edaf0dbb21446d3a4e7f9edb7')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/adminPages/100_wellknown_oids/gui.inc.php');
+	$tmp = pathinfo('plugins/adminPages/100_wellknown_oids/gui.inc.php');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/adminPages/100_wellknown_oids/gui.inc.php')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/adminPages/100_wellknown_oids/gui.inc.php', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_2();
+if (!is_file('plugins/adminPages/100_wellknown_oids/gui.inc.php')) {
+	warn('File cannot be created (not existing): plugins/adminPages/100_wellknown_oids/gui.inc.php');
+} else if (sha1_file('plugins/adminPages/100_wellknown_oids/gui.inc.php') != '4053fd319fef255edaf0dbb21446d3a4e7f9edb7') {
+	warn('File cannot be created (checksum mismatch): plugins/adminPages/100_wellknown_oids/gui.inc.php');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/adminPages/100_wellknown_oids/gui.inc.php', 0644)) {
+	warn('Could not change file permissions of plugins/adminPages/100_wellknown_oids/gui.inc.php');
+}
+
+// File added: plugins/adminPages/100_wellknown_oids/index.html
+function writefile_3() {
+	@$fp = fopen('plugins/adminPages/100_wellknown_oids/index.html', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/adminPages/100_wellknown_oids/index.html') && (sha1_file('plugins/adminPages/100_wellknown_oids/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/adminPages/100_wellknown_oids/index.html');
+	$tmp = pathinfo('plugins/adminPages/100_wellknown_oids/index.html');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/adminPages/100_wellknown_oids/index.html')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/adminPages/100_wellknown_oids/index.html', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_3();
+if (!is_file('plugins/adminPages/100_wellknown_oids/index.html')) {
+	warn('File cannot be created (not existing): plugins/adminPages/100_wellknown_oids/index.html');
+} else if (sha1_file('plugins/adminPages/100_wellknown_oids/index.html') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/adminPages/100_wellknown_oids/index.html');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/adminPages/100_wellknown_oids/index.html', 0644)) {
+	warn('Could not change file permissions of plugins/adminPages/100_wellknown_oids/index.html');
+}
+
+// File added: plugins/adminPages/100_wellknown_oids/script.js
+function writefile_4() {
+	@$fp = fopen('plugins/adminPages/100_wellknown_oids/script.js', 'w');
+	@fwrite($fp, base64_decode(''));
+	@fclose($fp);
+}
+if (is_file('plugins/adminPages/100_wellknown_oids/script.js') && (sha1_file('plugins/adminPages/100_wellknown_oids/script.js') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/adminPages/100_wellknown_oids/script.js');
+	$tmp = pathinfo('plugins/adminPages/100_wellknown_oids/script.js');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/adminPages/100_wellknown_oids/script.js')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/adminPages/100_wellknown_oids/script.js', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_4();
+if (!is_file('plugins/adminPages/100_wellknown_oids/script.js')) {
+	warn('File cannot be created (not existing): plugins/adminPages/100_wellknown_oids/script.js');
+} else if (sha1_file('plugins/adminPages/100_wellknown_oids/script.js') != 'da39a3ee5e6b4b0d3255bfef95601890afd80709') {
+	warn('File cannot be created (checksum mismatch): plugins/adminPages/100_wellknown_oids/script.js');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/adminPages/100_wellknown_oids/script.js', 0644)) {
+	warn('Could not change file permissions of plugins/adminPages/100_wellknown_oids/script.js');
+}
+
+// File added: plugins/adminPages/100_wellknown_oids/tree.inc.php
+function writefile_5() {
+	@$fp = fopen('plugins/adminPages/100_wellknown_oids/tree.inc.php', 'w');
+	@fwrite($fp, base64_decode('PD9waHAKCi8qCiAqIE9JRHBsdXMgMi4wCiAqIENvcHlyaWdodCAyMDE5IERhbmllbCBNYXJzY2hhbGwsIFZpYVRoaW5rU29mdAogKgogKiBMaWNlbnNlZCB1bmRlciB0aGUgQXBhY2hlIExpY2Vuc2UsIFZlcnNpb24gMi4wICh0aGUgIkxpY2Vuc2UiKTsKICogeW91'));
+	@fwrite($fp, base64_decode('IG1heSBub3QgdXNlIHRoaXMgZmlsZSBleGNlcHQgaW4gY29tcGxpYW5jZSB3aXRoIHRoZSBMaWNlbnNlLgogKiBZb3UgbWF5IG9idGFpbiBhIGNvcHkgb2YgdGhlIExpY2Vuc2UgYXQKICoKICogICAgIGh0dHA6Ly93d3cuYXBhY2hlLm9yZy9saWNlbnNlcy9MSUNF'));
+	@fwrite($fp, base64_decode('TlNFLTIuMAogKgogKiBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsIHNvZnR3YXJlCiAqIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSBMaWNlbnNlIGlzIGRpc3RyaWJ1dGVkIG9uIGFuICJBUyBJUyIgQkFTSVMs'));
+	@fwrite($fp, base64_decode('CiAqIFdJVEhPVVQgV0FSUkFOVElFUyBPUiBDT05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIgZXhwcmVzcyBvciBpbXBsaWVkLgogKiBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZSBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kCiAq'));
+	@fwrite($fp, base64_decode('IGxpbWl0YXRpb25zIHVuZGVyIHRoZSBMaWNlbnNlLgogKi8KCmlmIChmaWxlX2V4aXN0cyhfX0RJUl9fLicvdHJlZWljb24ucG5nJykpIHsKCSR0cmVlX2ljb24gPSAncGx1Z2lucy9hZG1pblBhZ2VzLycuYmFzZW5hbWUoX19ESVJfXykuJy90cmVlaWNvbi5wbmcn'));
+	@fwrite($fp, base64_decode('Owp9IGVsc2UgewoJJHRyZWVfaWNvbiA9IG51bGw7IC8vIGRlZmF1bHQgaWNvbiAoZm9sZGVyKQp9CgokcmFfcm9vdHNbXSA9IGFycmF5KAoJJ2lkJyA9PiAnb2lkcGx1czp3ZWxsX2tub3duX29pZHMnLAoJJ2ljb24nID0+ICR0cmVlX2ljb24sCgkndGV4dCcgPT4g'));
+	@fwrite($fp, base64_decode('J1dlbGwga25vd24gT0lEcycKKTsK'));
+	@fclose($fp);
+}
+if (is_file('plugins/adminPages/100_wellknown_oids/tree.inc.php') && (sha1_file('plugins/adminPages/100_wellknown_oids/tree.inc.php') != 'e7e2bdc18c4b7edd897d33025ed12b3e160c5588')) {
+	warn('File was created by someone else. Will overwrite the changes now: plugins/adminPages/100_wellknown_oids/tree.inc.php');
+	$tmp = pathinfo('plugins/adminPages/100_wellknown_oids/tree.inc.php');
+	$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('plugins/adminPages/100_wellknown_oids/tree.inc.php')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+	warn('Creating a backup as '.$backup_name);
+	if (!@copy('plugins/adminPages/100_wellknown_oids/tree.inc.php', $backup_name)) {
+		warn('Creation of backup failed');
+	}
+}
+writefile_5();
+if (!is_file('plugins/adminPages/100_wellknown_oids/tree.inc.php')) {
+	warn('File cannot be created (not existing): plugins/adminPages/100_wellknown_oids/tree.inc.php');
+} else if (sha1_file('plugins/adminPages/100_wellknown_oids/tree.inc.php') != 'e7e2bdc18c4b7edd897d33025ed12b3e160c5588') {
+	warn('File cannot be created (checksum mismatch): plugins/adminPages/100_wellknown_oids/tree.inc.php');
+} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('plugins/adminPages/100_wellknown_oids/tree.inc.php', 0644)) {
+	warn('Could not change file permissions of plugins/adminPages/100_wellknown_oids/tree.inc.php');
+}
+
+// File deleted: plugins/adminPages/100_wellknown_asn1/action.inc.php
+@unlink('plugins/adminPages/100_wellknown_asn1/action.inc.php');
+if (is_file('plugins/adminPages/100_wellknown_asn1/action.inc.php')) {
+	warn('File could not be deleted: plugins/adminPages/100_wellknown_asn1/action.inc.php');
+}
+
+// File deleted: plugins/adminPages/100_wellknown_asn1/gui.inc.php
+@unlink('plugins/adminPages/100_wellknown_asn1/gui.inc.php');
+if (is_file('plugins/adminPages/100_wellknown_asn1/gui.inc.php')) {
+	warn('File could not be deleted: plugins/adminPages/100_wellknown_asn1/gui.inc.php');
+}
+
+// File deleted: plugins/adminPages/100_wellknown_asn1/index.html
+@unlink('plugins/adminPages/100_wellknown_asn1/index.html');
+if (is_file('plugins/adminPages/100_wellknown_asn1/index.html')) {
+	warn('File could not be deleted: plugins/adminPages/100_wellknown_asn1/index.html');
+}
+
+// File deleted: plugins/adminPages/100_wellknown_asn1/script.js
+@unlink('plugins/adminPages/100_wellknown_asn1/script.js');
+if (is_file('plugins/adminPages/100_wellknown_asn1/script.js')) {
+	warn('File could not be deleted: plugins/adminPages/100_wellknown_asn1/script.js');
+}
+
+// File deleted: plugins/adminPages/100_wellknown_asn1/tree.inc.php
+@unlink('plugins/adminPages/100_wellknown_asn1/tree.inc.php');
+if (is_file('plugins/adminPages/100_wellknown_asn1/tree.inc.php')) {
+	warn('File could not be deleted: plugins/adminPages/100_wellknown_asn1/tree.inc.php');
+}
+
+// Dir deleted: plugins/adminPages/100_wellknown_asn1
+@rmdir('plugins/adminPages/100_wellknown_asn1');
+if (is_dir('plugins/adminPages/100_wellknown_asn1')) {
+	warn('Directory could not be deleted (was not empty?): plugins/adminPages/100_wellknown_asn1');
+}
+
+// File deleted: plugins/adminPages/101_wellknown_iri/action.inc.php
+@unlink('plugins/adminPages/101_wellknown_iri/action.inc.php');
+if (is_file('plugins/adminPages/101_wellknown_iri/action.inc.php')) {
+	warn('File could not be deleted: plugins/adminPages/101_wellknown_iri/action.inc.php');
+}
+
+// File deleted: plugins/adminPages/101_wellknown_iri/gui.inc.php
+@unlink('plugins/adminPages/101_wellknown_iri/gui.inc.php');
+if (is_file('plugins/adminPages/101_wellknown_iri/gui.inc.php')) {
+	warn('File could not be deleted: plugins/adminPages/101_wellknown_iri/gui.inc.php');
+}
+
+// File deleted: plugins/adminPages/101_wellknown_iri/index.html
+@unlink('plugins/adminPages/101_wellknown_iri/index.html');
+if (is_file('plugins/adminPages/101_wellknown_iri/index.html')) {
+	warn('File could not be deleted: plugins/adminPages/101_wellknown_iri/index.html');
+}
+
+// File deleted: plugins/adminPages/101_wellknown_iri/script.js
+@unlink('plugins/adminPages/101_wellknown_iri/script.js');
+if (is_file('plugins/adminPages/101_wellknown_iri/script.js')) {
+	warn('File could not be deleted: plugins/adminPages/101_wellknown_iri/script.js');
+}
+
+// File deleted: plugins/adminPages/101_wellknown_iri/tree.inc.php
+@unlink('plugins/adminPages/101_wellknown_iri/tree.inc.php');
+if (is_file('plugins/adminPages/101_wellknown_iri/tree.inc.php')) {
+	warn('File could not be deleted: plugins/adminPages/101_wellknown_iri/tree.inc.php');
+}
+
+// Dir deleted: plugins/adminPages/101_wellknown_iri
+@rmdir('plugins/adminPages/101_wellknown_iri');
+if (is_dir('plugins/adminPages/101_wellknown_iri')) {
+	warn('Directory could not be deleted (was not empty?): plugins/adminPages/101_wellknown_iri');
+}
+
+
+file_put_contents('oidplus_version.txt', "Revision 15\n");
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 15') err('Could not write to oidplus_version.txt!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+

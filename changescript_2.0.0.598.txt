@@ -1,0 +1,104 @@
+<?php /* <ViaThinkSoftSignature>
+OwQwJft3ixfiqEhjOD4JEfLRQapJv02x2I554HYz3EOu7P8W2P66dPN23PTZAW3xn
+qsC2bICQ27P/OMjhH8TvE5ZtBA142YKY94GHUumjeHH4Q9/W0QcGCmyHw3TC35qzw
+qGqs0iDi+02Zv9MnvJtc378ERhw2DS83Kj7aN+7M5KL+S7u4wcnzyhXLVvv2kqmlF
+4Vn9E9gkz4+dxXht2dgDEwrdI5wYvF4qXOJm5kexuIpi9Zqq99p5htF8JanOgocNf
+FgPGDXMSEmFcytPUer0+Ng9H09nMx/VfyCQiCD7tpt0tBNwdwYMc642RdfnKNxon7
+MG/s6GRai7Q8DV7YmxQifC1rZ+41duYuBrc07nCDSCQZ5Ay3RuFL4ePNQXoDu8UWS
+6QnVUoqw+d/5Vc/iC3C+cdnLIRAT7wNf30UnMBOTdr2p7m34dZVct65WD88iOCCef
+i04xU9+iLwVXp5fwF4odsWOauvh4gr1J7eMb3gd0ElzVJ9e+iKmZK2QnnHGdseHJr
+enfbiskxnQeeBUk5yBRtdrp5wfpHUvempxsTQqPSniMTkIfJ4ukB6yraxgPt9MzIR
+DlpZTOmYzQZ5vArRjLwBqjIzBpD711NnlGxrBPE4r/L7DNgLMZwd9kERqYLQsgfI3
+7gwTJDWIh/NMkXh17dPIXM5V8FvwhCEWG5jNSwEFPV6JrbgZNxRCGcMmSA45sZaBc
+itsDuY7KAEv2ZBEI0YOFNmtSPv0YearD5dDuZxGms+KG1FaUXtPF0O5Mq6OCMXoLq
+MV7PrmprFRmpKdNRSFC7u0mN6XxPu90NapIMHi//5CEMjMXOuAggkumxvlx3aZUKb
+vPaYz7Q4wYBrD6+tMGo2MlDVxz70TiDJ7ZdsuDNYsW5VHz7tLJZ4wl6cc5zm6lM3Q
+0JFZTdIp7XGSk78w843MWMcPm3r8E+MKMvD5fEUo8ZTxKT5fdLbZTQHA0Dzyx7o1m
+W6vRwbfqqW7lakfFjJzpsdSg9tjmORkjKbboA+bWVgUICRc+OP0UezEJM/9HGQ8Xc
+weaY/A21zEAcBYUw5fUuw39rZAk9QUtYFNWSffXdQU0L3zMbwWtQuYOz93RfqJig8
+ooHtXCHzJkF3fKiGlmObo2zwq0ZBdtYoM097hrENkonuRIyInUB6I5HN+6ZpMCUsG
+tKvdRDJkpP0U+VNTWZXRp4eU3qPFmYXrsoOrYaU5jn+txHgL1lzfi08bjTWGiqm5i
+LW16IxnOzEJjaXrFTQj4RjTKsS9PrJwk4BTiysZ3pvrLPeG8nJ6tj6j+MzLGbe+5S
+MtTvoLK+mCzQc3jDQOdhs+XF2adUJs2M9Y/73hEOWa+WaGBvqSVtr2jUl5I2mOF02
+Q==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 597') {
+	err('This update can only be applied to OIDplus version 2.0.0.597!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+// Files different: .gitattributes
+function writefile_1() {
+	@$fp = fopen('.gitattributes', 'w');
+	@fwrite($fp, base64_decode('dmVuZG9yLyoqLyogbGluZ3Vpc3QtdmVuZG9yZWQKCg=='));
+	@fclose($fp);
+}
+if (!is_file('.gitattributes')) {
+	warn('File has vanished! Will re-create it: .gitattributes');
+	writefile_1();
+	if (!is_file('.gitattributes')) {
+		warn('File cannot be created (not existing): .gitattributes');
+	} else if (sha1_file('.gitattributes') != '18cd10b944ec81477546837cbdf7160433de1565') {
+		warn('File cannot be created (checksum mismatch): .gitattributes');
+	} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('.gitattributes', 0644)) {
+		warn('Could not change file permissions of .gitattributes');
+	}
+} else {
+	if (@sha1_file('.gitattributes') !== '18cd10b944ec81477546837cbdf7160433de1565') {
+		if (@sha1_file('.gitattributes') !== 'bfef5055f6119a9b610b585b38acae320b8f8190') {
+			warn('File was modified. Will overwrite the changes now: .gitattributes');
+			$tmp = pathinfo('.gitattributes');
+			$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('.gitattributes')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+			warn('Creating a backup as '.$backup_name);
+			if (!@copy('.gitattributes', $backup_name)) {
+				warn('Creation of backup failed');
+			}
+		}
+		writefile_1();
+		if (@sha1_file('.gitattributes') !== '18cd10b944ec81477546837cbdf7160433de1565') {
+			warn('File cannot be written (checksum mismatch): .gitattributes');
+		}
+	}
+}
+
+
+file_put_contents('oidplus_version.txt', "Revision 598\n");
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 598') err('Could not write to oidplus_version.txt!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+

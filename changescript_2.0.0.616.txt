@@ -1,0 +1,1254 @@
+<?php /* <ViaThinkSoftSignature>
+pA4e0d5wR0W0sysRuP9QUOnZhWUU438mbuQs4ex8YE0aX6mjbwDJzQj32tAzFpzvf
++coGsBng9Y47jmwVbeOn3UAMQjULsAM79LLq3k0mtAaroQkfrCwTYHOMVLWTBlZ/4
+ePwTUOY8HjuA086kk1cAud+L1NSpPD2b0Kzr9YDIpY78/OpL7+5Na9TQzpy9q1I5C
+KnzmAlKoHeqENG3lagx6e3NzwrgMjPExHHmYBK1NNqd75X4W9AAe/TQJaE27T0Ok5
+TyP6ILSBLfEXYzE+aHp8+m1nYNMHjBOOgaUXh9LbZHBhmij5tBxTFo77xuHwFwmS+
+QAxkyRoHvSTl5UX7FSSb2YrtR3apQDYP2SRJt7qUnzHYAehBDCrgT6cNtKJ6yNeU8
+W5cj6RtL2k85FQ8t35Wk1954ChH+WpKr8sm65296MS2NkP8qISYhOR8r7A8sLQGb1
+UdurR9p4sTZhI/3167W7dcJx8b+tZBG8wexd7niuMCTrHTzXoSw+jGn4TN8u8eZQ4
+iUszG3napLZMbcyVlQEXlWE0eJhLuSNHqmmPK1xyAJVPm/K8jIxtoQSRQYjsfjj//
+ec2ZU/iXvQfbi2rDA1+nieRcNoDxISUGiqdXehhClJPC9jRWqlhIrnWuCdT81f4bx
+kNLNUAHoKF4R1h6492mV/+sTIzOqKg30DQ77AkHm8Zw02bf5aIUPn2kOs8aHr0xKZ
+ighUjwrT+41xR+AGtaHdTX/hcAPcXHL/Z9VIY6X0F1dOSV1I4TT+6Cv3DdnGjB9XC
+eZCjcIm669PMQonryOO7KeZnrOKfzd8224bfSAUo6XzF61rtmseHJTKTatI4Nm8T8
+dOF22w5BYfjJfMHYe7CbgIm4b4/ArNYDVYvui0Yy0vb8cXxV0xIj8HOpiJF8q0qW5
+vOWgip74yP8aZaXLwErovFpVy/hj5zwcAaAtLDLAXbD9Qm6CVVX6zHl7OKrhctMTo
+kdN1/TGHRUyFfsW5dg1hR5UiMMJj3wzvSYe8SDy9qZApOm9xmJdHSJxpG05bLamMJ
+HR03C9a0Uw9hgBOMWDZDP+ucVIlFxXgB9PiQmCZzOxqnSwHcvW1wqW0cynuZ7TtMq
+ifwypqxA/JtUkymikpbYVQR74BBh8QV6EhZnNgLJvmHHBvQlzKrvmiBRYuKxfBHSZ
+NhBbf+A+CmWf5WFeoAfTPsHF6VdzpuhSbEsRxz+aG35Ejpi5edXfxOvx7l2be5qq8
+cKlf2fnueY5ZUFIQOWUJTyQn4MVP6dfa0aqoK7c5BgUg/kG6V3lfmmOP6UAberk6m
+A35VMzBAB+DA3RHLEiLbO02MjPF7YAmT/Jg/7YZYAbMhN841/Fvzkv+8Rl++KUtMK
+A==
+</ViaThinkSoftSignature> */ ?>
+<?php
+
+/*
+ * OIDplus 2.0
+ * Copyright 2019 - 2023 Daniel Marschall, ViaThinkSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function info($str) { echo "INFO: $str\n"; }
+function warn($str) { echo "WARNING: $str\n"; }
+function err($str) { die("FATAL ERROR: $str\n"); }
+
+@set_time_limit(0);
+
+@header('Content-Type: text/plain');
+
+chdir(__DIR__);
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 615') {
+	err('This update can only be applied to OIDplus version 2.0.0.615!');
+}
+
+if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+	err('You need PHP Version 7.0 to update to this version');
+}
+
+// Files different: dev/vendor_update.sh
+function writefile_1() {
+	@$fp = fopen('dev/vendor_update.sh', 'w');
+	@fwrite($fp, base64_decode('IyEvYmluL2Jhc2gKCiMgT0lEcGx1cyAyLjAKIyBDb3B5cmlnaHQgMjAxOSAtIDIwMjEgRGFuaWVsIE1hcnNjaGFsbCwgVmlhVGhpbmtTb2Z0CiMKIyBMaWNlbnNlZCB1bmRlciB0aGUgQXBhY2hlIExpY2Vuc2UsIFZlcnNpb24gMi4wICh0aGUgIkxpY2Vuc2UiKTsK'));
+	@fwrite($fp, base64_decode('IyB5b3UgbWF5IG5vdCB1c2UgdGhpcyBmaWxlIGV4Y2VwdCBpbiBjb21wbGlhbmNlIHdpdGggdGhlIExpY2Vuc2UuCiMgWW91IG1heSBvYnRhaW4gYSBjb3B5IG9mIHRoZSBMaWNlbnNlIGF0CiMKIyAgICAgaHR0cDovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzL0xJ'));
+	@fwrite($fp, base64_decode('Q0VOU0UtMi4wCiMKIyBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsIHNvZnR3YXJlCiMgZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIExpY2Vuc2UgaXMgZGlzdHJpYnV0ZWQgb24gYW4gIkFTIElTIiBCQVNJUywK'));
+	@fwrite($fp, base64_decode('IyBXSVRIT1VUIFdBUlJBTlRJRVMgT1IgQ09ORElUSU9OUyBPRiBBTlkgS0lORCwgZWl0aGVyIGV4cHJlc3Mgb3IgaW1wbGllZC4KIyBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZSBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kCiMgbGlt'));
+	@fwrite($fp, base64_decode('aXRhdGlvbnMgdW5kZXIgdGhlIExpY2Vuc2UuCgpESVI9JCggZGlybmFtZSAiJDAiICkKCmNkICIkRElSLy4uIgoKIyBXZSB0ZW1wb3JhcmlseSBtb3ZlIHRoZSAuc3ZuIGRpcmVjdG9yeSwgb3RoZXJ3aXNlCiMgd2UgY2Fubm90IGNoZWNrb3V0IGZpbGVmb3JtYXRz'));
+	@fwrite($fp, base64_decode('IGFuZCB2bmFnIGluIHRoZSB2ZW5kb3IKIyBkaXJlY3RvcnkKaWYgWyAtZCAiLnN2biIgXTsgdGhlbgoJbXYgLnN2biBfc3ZuCmZpCgojIFJlbW92ZSB2ZW5kb3IgYW5kIGNvbXBvc2VyLmxvY2ssIHNvIHdlIGNhbiBkb3dubG9hZCBldmVyeXRoaW5nIGFnYWluCiMg'));
+	@fwrite($fp, base64_decode('KFdlIG5lZWQgdG8gcmVjZWl2ZSBldmVyeXRoaW5nIGFnYWluLCBiZWNhdXNlIHdlIGhhZCB0byBkZWxldGUgdGhlIC5naXQKIyAuc3ZuIGZpbGVzIGFuZCB0aGVyZWZvcmUgd2UgY2Fubm90IGRvIGEgc2ltcGxlICJzdm4gdXBkYXRlIiBkZWx0YSB1cGRhdGUgYW55'));
+	@fwrite($fp, base64_decode('bW9yZSkKcm0gLXJmIHZlbmRvcgpybSBjb21wb3Nlci5sb2NrCgojIERvd25sb2FkIGV2ZXJ5dGhpbmcgYWdhaW4KY29tcG9zZXIgdXBkYXRlCgojIFJlbW92ZSBzdHVmZiB3ZSBkb24ndCB3YW50IHRvIHB1Ymxpc2ggb3IgUEhQIGZpbGVzIHdoaWNoIGNvdWxkIGJl'));
+	@fwrite($fp, base64_decode('CiMgZXhlY3V0ZWQgKHdoaWNoIHdvdWxkIGJlIGEgc2VjdXJpdHkgcmlzaywgYmVjYXVzZSB0aGUgdmVuZG9yLyBkaXJlY3RvcnkKIyBjYW4gYmUgYWNjZXNzZWQgdmlhIHRoZSB3ZWItYnJvd3NlcikKc2hvcHQgLXMgZ2xvYnN0YXIKcm0gLXJmIHZlbmRvci8qKi8u'));
+	@fwrite($fp, base64_decode('c3ZuCnJtIC1yZiB2ZW5kb3IvKiovLmdpdApybSAtcmYgdmVuZG9yLyoqLy5naXRpZ25vcmUKcm0gLXJmIHZlbmRvci8qKi8uZ2l0YXR0cmlidXRlcwpybSAtcmYgdmVuZG9yLyoqLy5naXRodWIKcm0gLXJmIHZlbmRvci8qKi9kZW1vCnJtIC1yZiB2ZW5kb3IvKiov'));
+	@fwrite($fp, base64_decode('ZGVtb3MKcm0gLXJmIHZlbmRvci90d2JzL2Jvb3RzdHJhcC9wYWNrYWdlKgpybSAtcmYgdmVuZG9yL3R3YnMvYm9vdHN0cmFwLyouanMKcm0gLXJmIHZlbmRvci90d2JzL2Jvb3RzdHJhcC8qLnltbApybSAtcmYgdmVuZG9yL3R3YnMvYm9vdHN0cmFwLy4qIDI+L2Rl'));
+	@fwrite($fp, base64_decode('di9udWxsCnJtIC1yZiB2ZW5kb3IvdHdicy9ib290c3RyYXAvbnVnZXQvCnJtIC1yZiB2ZW5kb3IvdHdicy9ib290c3RyYXAvc2Nzcy8Kcm0gLXJmIHZlbmRvci90d2JzL2Jvb3RzdHJhcC9qcy8Kcm0gLXJmIHZlbmRvci90d2JzL2Jvb3RzdHJhcC9idWlsZC8Kcm0g'));
+	@fwrite($fp, base64_decode('LXJmIHZlbmRvci90d2JzL2Jvb3RzdHJhcC9zaXRlLwpybSAtcmYgdmVuZG9yL2dvb2dsZS9yZWNhcHRjaGEvZXhhbXBsZXMvCnJtIC1yZiB2ZW5kb3IvKiovdGVzdHMKcm0gLXJmIHZlbmRvci8qKi90ZXN0CnJtIHZlbmRvci9kYW5pZWxtYXJzY2hhbGwvZmlsZWZv'));
+	@fwrite($fp, base64_decode('cm1hdHMvZXhhbXBsZS5waHAKcm0gLXJmIHZlbmRvci9kYW5pZWxtYXJzY2hhbGwvdm5hZy9sb2dvcwpybSAtcmYgdmVuZG9yL2RhbmllbG1hcnNjaGFsbC92bmFnL2RvYwpybSAtcmYgdmVuZG9yL2RhbmllbG1hcnNjaGFsbC92bmFnL3BsdWdpbnMKcm0gLXJmIHZl'));
+	@fwrite($fp, base64_decode('bmRvci9kYW5pZWxtYXJzY2hhbGwvdXVpZF9tYWNfdXRpbHMvKi5waHAKcm0gLXJmIHZlbmRvci9kYW5pZWxtYXJzY2hhbGwvdXVpZF9tYWNfdXRpbHMvKi5zaApybSAtcmYgdmVuZG9yL2RhbmllbG1hcnNjaGFsbC91dWlkX21hY191dGlscy8qLmNzcwoKIyBJdCBp'));
+	@fwrite($fp, base64_decode('cyBpbXBvcnRhbnQgdGhhdCBzeW1saW5rcyBhcmUgbm90IGV4aXN0aW5nLCBvdGhlcndpc2UgdGhlIC50YXIuZ3ogZGlyCiMgY2Fubm90IGJlIGNvcnJlY3RseSBleHRyYWN0ZWQgaW4gV2luZG93cwpybSAtcmYgdmVuZG9yL2JpbgpybSAtcmYgdmVuZG9yL21hdHRo'));
+	@fwrite($fp, base64_decode('aWFzbXVsbGllL21pbmlmeS9iaW4KCiMgRW5hYmxlIFNWTiBhZ2FpbgppZiBbIC1kICJfc3ZuIiBdOyB0aGVuCgltdiBfc3ZuIC5zdm4KZmkKCmNvbXBvc2VyIGxpY2Vuc2UgPiB2ZW5kb3IvbGljZW5zZXMK'));
+	@fclose($fp);
+}
+if (!is_file('dev/vendor_update.sh')) {
+	warn('File has vanished! Will re-create it: dev/vendor_update.sh');
+	writefile_1();
+	if (!is_file('dev/vendor_update.sh')) {
+		warn('File cannot be created (not existing): dev/vendor_update.sh');
+	} else if (sha1_file('dev/vendor_update.sh') != '6d29a9a111247eac565a27708f601be4db037b6e') {
+		warn('File cannot be created (checksum mismatch): dev/vendor_update.sh');
+	} else if ((DIRECTORY_SEPARATOR === '/') && !@chmod('dev/vendor_update.sh', 0755)) {
+		warn('Could not change file permissions of dev/vendor_update.sh');
+	}
+} else {
+	if (@sha1_file('dev/vendor_update.sh') !== '6d29a9a111247eac565a27708f601be4db037b6e') {
+		if (@sha1_file('dev/vendor_update.sh') !== '9f703833df6a4bd21f4f0d49520dafe086debf80') {
+			warn('File was modified. Will overwrite the changes now: dev/vendor_update.sh');
+			$tmp = pathinfo('dev/vendor_update.sh');
+			$backup_name = $tmp['dirname'].DIRECTORY_SEPARATOR.$tmp['filename'].'.'.date('Ymdhis',@filemtime('dev/vendor_update.sh')).(isset($tmp['extension']) ? '.'.$tmp['extension'] : '');
+			warn('Creating a backup as '.$backup_name);
+			if (!@copy('dev/vendor_update.sh', $backup_name)) {
+				warn('Creation of backup failed');
+			}
+		}
+		writefile_1();
+		if (@sha1_file('dev/vendor_update.sh') !== '6d29a9a111247eac565a27708f601be4db037b6e') {
+			warn('File cannot be written (checksum mismatch): dev/vendor_update.sh');
+		}
+	}
+}
+
+// File deleted: vendor/components/jqueryui/.gitignore
+@unlink('vendor/components/jqueryui/.gitignore');
+if (is_file('vendor/components/jqueryui/.gitignore')) {
+	warn('File could not be deleted: vendor/components/jqueryui/.gitignore');
+}
+
+// File deleted: vendor/dcodeio/bcrypt.js/.gitattributes
+@unlink('vendor/dcodeio/bcrypt.js/.gitattributes');
+if (is_file('vendor/dcodeio/bcrypt.js/.gitattributes')) {
+	warn('File could not be deleted: vendor/dcodeio/bcrypt.js/.gitattributes');
+}
+
+// File deleted: vendor/dcodeio/bcrypt.js/.gitignore
+@unlink('vendor/dcodeio/bcrypt.js/.gitignore');
+if (is_file('vendor/dcodeio/bcrypt.js/.gitignore')) {
+	warn('File could not be deleted: vendor/dcodeio/bcrypt.js/.gitignore');
+}
+
+// File deleted: vendor/emn178/js-sha3/.gitignore
+@unlink('vendor/emn178/js-sha3/.gitignore');
+if (is_file('vendor/emn178/js-sha3/.gitignore')) {
+	warn('File could not be deleted: vendor/emn178/js-sha3/.gitignore');
+}
+
+// File deleted: vendor/gedmarc/layout/.gitignore
+@unlink('vendor/gedmarc/layout/.gitignore');
+if (is_file('vendor/gedmarc/layout/.gitignore')) {
+	warn('File could not be deleted: vendor/gedmarc/layout/.gitignore');
+}
+
+// File deleted: vendor/google/recaptcha/.gitignore
+@unlink('vendor/google/recaptcha/.gitignore');
+if (is_file('vendor/google/recaptcha/.gitignore')) {
+	warn('File could not be deleted: vendor/google/recaptcha/.gitignore');
+}
+
+// File deleted: vendor/n-other/php-sha3/.gitignore
+@unlink('vendor/n-other/php-sha3/.gitignore');
+if (is_file('vendor/n-other/php-sha3/.gitignore')) {
+	warn('File could not be deleted: vendor/n-other/php-sha3/.gitignore');
+}
+
+// File deleted: vendor/twbs/bootstrap/.babelrc.js
+@unlink('vendor/twbs/bootstrap/.babelrc.js');
+if (is_file('vendor/twbs/bootstrap/.babelrc.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.babelrc.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/.browserslistrc
+@unlink('vendor/twbs/bootstrap/.browserslistrc');
+if (is_file('vendor/twbs/bootstrap/.browserslistrc')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.browserslistrc');
+}
+
+// File deleted: vendor/twbs/bootstrap/.bundlewatch.config.json
+@unlink('vendor/twbs/bootstrap/.bundlewatch.config.json');
+if (is_file('vendor/twbs/bootstrap/.bundlewatch.config.json')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.bundlewatch.config.json');
+}
+
+// File deleted: vendor/twbs/bootstrap/.editorconfig
+@unlink('vendor/twbs/bootstrap/.editorconfig');
+if (is_file('vendor/twbs/bootstrap/.editorconfig')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.editorconfig');
+}
+
+// File deleted: vendor/twbs/bootstrap/.eslintignore
+@unlink('vendor/twbs/bootstrap/.eslintignore');
+if (is_file('vendor/twbs/bootstrap/.eslintignore')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.eslintignore');
+}
+
+// File deleted: vendor/twbs/bootstrap/.eslintrc.json
+@unlink('vendor/twbs/bootstrap/.eslintrc.json');
+if (is_file('vendor/twbs/bootstrap/.eslintrc.json')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.eslintrc.json');
+}
+
+// File deleted: vendor/twbs/bootstrap/.gitattributes
+@unlink('vendor/twbs/bootstrap/.gitattributes');
+if (is_file('vendor/twbs/bootstrap/.gitattributes')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.gitattributes');
+}
+
+// File deleted: vendor/twbs/bootstrap/.gitignore
+@unlink('vendor/twbs/bootstrap/.gitignore');
+if (is_file('vendor/twbs/bootstrap/.gitignore')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.gitignore');
+}
+
+// File deleted: vendor/twbs/bootstrap/.stylelintignore
+@unlink('vendor/twbs/bootstrap/.stylelintignore');
+if (is_file('vendor/twbs/bootstrap/.stylelintignore')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.stylelintignore');
+}
+
+// File deleted: vendor/twbs/bootstrap/.stylelintrc
+@unlink('vendor/twbs/bootstrap/.stylelintrc');
+if (is_file('vendor/twbs/bootstrap/.stylelintrc')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/.stylelintrc');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/.eslintrc.json
+@unlink('vendor/twbs/bootstrap/build/.eslintrc.json');
+if (is_file('vendor/twbs/bootstrap/build/.eslintrc.json')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/.eslintrc.json');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/banner.js
+@unlink('vendor/twbs/bootstrap/build/banner.js');
+if (is_file('vendor/twbs/bootstrap/build/banner.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/banner.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/build-plugins.js
+@unlink('vendor/twbs/bootstrap/build/build-plugins.js');
+if (is_file('vendor/twbs/bootstrap/build/build-plugins.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/build-plugins.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/change-version.js
+@unlink('vendor/twbs/bootstrap/build/change-version.js');
+if (is_file('vendor/twbs/bootstrap/build/change-version.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/change-version.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/generate-sri.js
+@unlink('vendor/twbs/bootstrap/build/generate-sri.js');
+if (is_file('vendor/twbs/bootstrap/build/generate-sri.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/generate-sri.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/postcss.config.js
+@unlink('vendor/twbs/bootstrap/build/postcss.config.js');
+if (is_file('vendor/twbs/bootstrap/build/postcss.config.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/postcss.config.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/rollup.config.js
+@unlink('vendor/twbs/bootstrap/build/rollup.config.js');
+if (is_file('vendor/twbs/bootstrap/build/rollup.config.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/rollup.config.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/svgo.yml
+@unlink('vendor/twbs/bootstrap/build/svgo.yml');
+if (is_file('vendor/twbs/bootstrap/build/svgo.yml')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/svgo.yml');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/vnu-jar.js
+@unlink('vendor/twbs/bootstrap/build/vnu-jar.js');
+if (is_file('vendor/twbs/bootstrap/build/vnu-jar.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/vnu-jar.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/build/zip-examples.js
+@unlink('vendor/twbs/bootstrap/build/zip-examples.js');
+if (is_file('vendor/twbs/bootstrap/build/zip-examples.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/build/zip-examples.js');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/build
+@rmdir('vendor/twbs/bootstrap/build');
+if (is_dir('vendor/twbs/bootstrap/build')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/build');
+}
+
+// File deleted: vendor/twbs/bootstrap/config.yml
+@unlink('vendor/twbs/bootstrap/config.yml');
+if (is_file('vendor/twbs/bootstrap/config.yml')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/config.yml');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/alert.js
+@unlink('vendor/twbs/bootstrap/js/dist/alert.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/alert.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/alert.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/alert.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/alert.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/alert.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/alert.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/base-component.js
+@unlink('vendor/twbs/bootstrap/js/dist/base-component.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/base-component.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/base-component.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/base-component.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/base-component.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/base-component.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/base-component.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/button.js
+@unlink('vendor/twbs/bootstrap/js/dist/button.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/button.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/button.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/button.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/button.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/button.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/button.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/carousel.js
+@unlink('vendor/twbs/bootstrap/js/dist/carousel.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/carousel.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/carousel.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/carousel.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/carousel.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/carousel.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/carousel.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/collapse.js
+@unlink('vendor/twbs/bootstrap/js/dist/collapse.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/collapse.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/collapse.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/collapse.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/collapse.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/collapse.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/collapse.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dom/data.js
+@unlink('vendor/twbs/bootstrap/js/dist/dom/data.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/dom/data.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dom/data.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dom/data.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/dom/data.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/dom/data.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dom/data.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dom/event-handler.js
+@unlink('vendor/twbs/bootstrap/js/dist/dom/event-handler.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/dom/event-handler.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dom/event-handler.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dom/event-handler.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/dom/event-handler.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/dom/event-handler.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dom/event-handler.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dom/manipulator.js
+@unlink('vendor/twbs/bootstrap/js/dist/dom/manipulator.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/dom/manipulator.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dom/manipulator.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dom/manipulator.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/dom/manipulator.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/dom/manipulator.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dom/manipulator.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dom/selector-engine.js
+@unlink('vendor/twbs/bootstrap/js/dist/dom/selector-engine.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/dom/selector-engine.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dom/selector-engine.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dom/selector-engine.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/dom/selector-engine.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/dom/selector-engine.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dom/selector-engine.js.map');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/js/dist/dom
+@rmdir('vendor/twbs/bootstrap/js/dist/dom');
+if (is_dir('vendor/twbs/bootstrap/js/dist/dom')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/js/dist/dom');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dropdown.js
+@unlink('vendor/twbs/bootstrap/js/dist/dropdown.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/dropdown.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dropdown.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/dropdown.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/dropdown.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/dropdown.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/dropdown.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/modal.js
+@unlink('vendor/twbs/bootstrap/js/dist/modal.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/modal.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/modal.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/modal.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/modal.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/modal.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/modal.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/offcanvas.js
+@unlink('vendor/twbs/bootstrap/js/dist/offcanvas.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/offcanvas.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/offcanvas.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/offcanvas.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/offcanvas.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/offcanvas.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/offcanvas.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/popover.js
+@unlink('vendor/twbs/bootstrap/js/dist/popover.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/popover.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/popover.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/popover.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/popover.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/popover.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/popover.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/scrollspy.js
+@unlink('vendor/twbs/bootstrap/js/dist/scrollspy.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/scrollspy.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/scrollspy.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/scrollspy.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/scrollspy.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/scrollspy.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/scrollspy.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/tab.js
+@unlink('vendor/twbs/bootstrap/js/dist/tab.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/tab.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/tab.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/tab.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/tab.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/tab.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/tab.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/toast.js
+@unlink('vendor/twbs/bootstrap/js/dist/toast.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/toast.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/toast.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/toast.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/toast.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/toast.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/toast.js.map');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/tooltip.js
+@unlink('vendor/twbs/bootstrap/js/dist/tooltip.js');
+if (is_file('vendor/twbs/bootstrap/js/dist/tooltip.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/tooltip.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/dist/tooltip.js.map
+@unlink('vendor/twbs/bootstrap/js/dist/tooltip.js.map');
+if (is_file('vendor/twbs/bootstrap/js/dist/tooltip.js.map')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/dist/tooltip.js.map');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/js/dist
+@rmdir('vendor/twbs/bootstrap/js/dist');
+if (is_dir('vendor/twbs/bootstrap/js/dist')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/js/dist');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/index.esm.js
+@unlink('vendor/twbs/bootstrap/js/index.esm.js');
+if (is_file('vendor/twbs/bootstrap/js/index.esm.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/index.esm.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/index.umd.js
+@unlink('vendor/twbs/bootstrap/js/index.umd.js');
+if (is_file('vendor/twbs/bootstrap/js/index.umd.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/index.umd.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/alert.js
+@unlink('vendor/twbs/bootstrap/js/src/alert.js');
+if (is_file('vendor/twbs/bootstrap/js/src/alert.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/alert.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/base-component.js
+@unlink('vendor/twbs/bootstrap/js/src/base-component.js');
+if (is_file('vendor/twbs/bootstrap/js/src/base-component.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/base-component.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/button.js
+@unlink('vendor/twbs/bootstrap/js/src/button.js');
+if (is_file('vendor/twbs/bootstrap/js/src/button.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/button.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/carousel.js
+@unlink('vendor/twbs/bootstrap/js/src/carousel.js');
+if (is_file('vendor/twbs/bootstrap/js/src/carousel.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/carousel.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/collapse.js
+@unlink('vendor/twbs/bootstrap/js/src/collapse.js');
+if (is_file('vendor/twbs/bootstrap/js/src/collapse.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/collapse.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/dom/data.js
+@unlink('vendor/twbs/bootstrap/js/src/dom/data.js');
+if (is_file('vendor/twbs/bootstrap/js/src/dom/data.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/dom/data.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/dom/event-handler.js
+@unlink('vendor/twbs/bootstrap/js/src/dom/event-handler.js');
+if (is_file('vendor/twbs/bootstrap/js/src/dom/event-handler.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/dom/event-handler.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/dom/manipulator.js
+@unlink('vendor/twbs/bootstrap/js/src/dom/manipulator.js');
+if (is_file('vendor/twbs/bootstrap/js/src/dom/manipulator.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/dom/manipulator.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/dom/selector-engine.js
+@unlink('vendor/twbs/bootstrap/js/src/dom/selector-engine.js');
+if (is_file('vendor/twbs/bootstrap/js/src/dom/selector-engine.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/dom/selector-engine.js');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/js/src/dom
+@rmdir('vendor/twbs/bootstrap/js/src/dom');
+if (is_dir('vendor/twbs/bootstrap/js/src/dom')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/js/src/dom');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/dropdown.js
+@unlink('vendor/twbs/bootstrap/js/src/dropdown.js');
+if (is_file('vendor/twbs/bootstrap/js/src/dropdown.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/dropdown.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/modal.js
+@unlink('vendor/twbs/bootstrap/js/src/modal.js');
+if (is_file('vendor/twbs/bootstrap/js/src/modal.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/modal.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/offcanvas.js
+@unlink('vendor/twbs/bootstrap/js/src/offcanvas.js');
+if (is_file('vendor/twbs/bootstrap/js/src/offcanvas.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/offcanvas.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/popover.js
+@unlink('vendor/twbs/bootstrap/js/src/popover.js');
+if (is_file('vendor/twbs/bootstrap/js/src/popover.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/popover.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/scrollspy.js
+@unlink('vendor/twbs/bootstrap/js/src/scrollspy.js');
+if (is_file('vendor/twbs/bootstrap/js/src/scrollspy.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/scrollspy.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/tab.js
+@unlink('vendor/twbs/bootstrap/js/src/tab.js');
+if (is_file('vendor/twbs/bootstrap/js/src/tab.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/tab.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/toast.js
+@unlink('vendor/twbs/bootstrap/js/src/toast.js');
+if (is_file('vendor/twbs/bootstrap/js/src/toast.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/toast.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/tooltip.js
+@unlink('vendor/twbs/bootstrap/js/src/tooltip.js');
+if (is_file('vendor/twbs/bootstrap/js/src/tooltip.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/tooltip.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/util/backdrop.js
+@unlink('vendor/twbs/bootstrap/js/src/util/backdrop.js');
+if (is_file('vendor/twbs/bootstrap/js/src/util/backdrop.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/util/backdrop.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/util/index.js
+@unlink('vendor/twbs/bootstrap/js/src/util/index.js');
+if (is_file('vendor/twbs/bootstrap/js/src/util/index.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/util/index.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/util/sanitizer.js
+@unlink('vendor/twbs/bootstrap/js/src/util/sanitizer.js');
+if (is_file('vendor/twbs/bootstrap/js/src/util/sanitizer.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/util/sanitizer.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/js/src/util/scrollbar.js
+@unlink('vendor/twbs/bootstrap/js/src/util/scrollbar.js');
+if (is_file('vendor/twbs/bootstrap/js/src/util/scrollbar.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/js/src/util/scrollbar.js');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/js/src/util
+@rmdir('vendor/twbs/bootstrap/js/src/util');
+if (is_dir('vendor/twbs/bootstrap/js/src/util')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/js/src/util');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/js/src
+@rmdir('vendor/twbs/bootstrap/js/src');
+if (is_dir('vendor/twbs/bootstrap/js/src')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/js/src');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/js
+@rmdir('vendor/twbs/bootstrap/js');
+if (is_dir('vendor/twbs/bootstrap/js')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/js');
+}
+
+// File deleted: vendor/twbs/bootstrap/nuget/MyGet.ps1
+@unlink('vendor/twbs/bootstrap/nuget/MyGet.ps1');
+if (is_file('vendor/twbs/bootstrap/nuget/MyGet.ps1')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/nuget/MyGet.ps1');
+}
+
+// File deleted: vendor/twbs/bootstrap/nuget/bootstrap.nuspec
+@unlink('vendor/twbs/bootstrap/nuget/bootstrap.nuspec');
+if (is_file('vendor/twbs/bootstrap/nuget/bootstrap.nuspec')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/nuget/bootstrap.nuspec');
+}
+
+// File deleted: vendor/twbs/bootstrap/nuget/bootstrap.png
+@unlink('vendor/twbs/bootstrap/nuget/bootstrap.png');
+if (is_file('vendor/twbs/bootstrap/nuget/bootstrap.png')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/nuget/bootstrap.png');
+}
+
+// File deleted: vendor/twbs/bootstrap/nuget/bootstrap.sass.nuspec
+@unlink('vendor/twbs/bootstrap/nuget/bootstrap.sass.nuspec');
+if (is_file('vendor/twbs/bootstrap/nuget/bootstrap.sass.nuspec')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/nuget/bootstrap.sass.nuspec');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/nuget
+@rmdir('vendor/twbs/bootstrap/nuget');
+if (is_dir('vendor/twbs/bootstrap/nuget')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/nuget');
+}
+
+// File deleted: vendor/twbs/bootstrap/package-lock.json
+@unlink('vendor/twbs/bootstrap/package-lock.json');
+if (is_file('vendor/twbs/bootstrap/package-lock.json')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/package-lock.json');
+}
+
+// File deleted: vendor/twbs/bootstrap/package.js
+@unlink('vendor/twbs/bootstrap/package.js');
+if (is_file('vendor/twbs/bootstrap/package.js')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/package.js');
+}
+
+// File deleted: vendor/twbs/bootstrap/package.json
+@unlink('vendor/twbs/bootstrap/package.json');
+if (is_file('vendor/twbs/bootstrap/package.json')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/package.json');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_accordion.scss
+@unlink('vendor/twbs/bootstrap/scss/_accordion.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_accordion.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_accordion.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_alert.scss
+@unlink('vendor/twbs/bootstrap/scss/_alert.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_alert.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_alert.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_badge.scss
+@unlink('vendor/twbs/bootstrap/scss/_badge.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_badge.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_badge.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_breadcrumb.scss
+@unlink('vendor/twbs/bootstrap/scss/_breadcrumb.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_breadcrumb.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_breadcrumb.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_button-group.scss
+@unlink('vendor/twbs/bootstrap/scss/_button-group.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_button-group.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_button-group.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_buttons.scss
+@unlink('vendor/twbs/bootstrap/scss/_buttons.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_buttons.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_buttons.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_card.scss
+@unlink('vendor/twbs/bootstrap/scss/_card.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_card.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_card.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_carousel.scss
+@unlink('vendor/twbs/bootstrap/scss/_carousel.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_carousel.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_carousel.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_close.scss
+@unlink('vendor/twbs/bootstrap/scss/_close.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_close.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_close.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_containers.scss
+@unlink('vendor/twbs/bootstrap/scss/_containers.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_containers.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_containers.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_dropdown.scss
+@unlink('vendor/twbs/bootstrap/scss/_dropdown.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_dropdown.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_dropdown.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_forms.scss
+@unlink('vendor/twbs/bootstrap/scss/_forms.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_forms.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_forms.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_functions.scss
+@unlink('vendor/twbs/bootstrap/scss/_functions.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_functions.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_functions.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_grid.scss
+@unlink('vendor/twbs/bootstrap/scss/_grid.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_grid.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_grid.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_helpers.scss
+@unlink('vendor/twbs/bootstrap/scss/_helpers.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_helpers.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_helpers.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_images.scss
+@unlink('vendor/twbs/bootstrap/scss/_images.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_images.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_images.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_list-group.scss
+@unlink('vendor/twbs/bootstrap/scss/_list-group.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_list-group.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_list-group.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_mixins.scss
+@unlink('vendor/twbs/bootstrap/scss/_mixins.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_mixins.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_mixins.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_modal.scss
+@unlink('vendor/twbs/bootstrap/scss/_modal.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_modal.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_modal.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_nav.scss
+@unlink('vendor/twbs/bootstrap/scss/_nav.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_nav.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_nav.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_navbar.scss
+@unlink('vendor/twbs/bootstrap/scss/_navbar.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_navbar.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_navbar.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_offcanvas.scss
+@unlink('vendor/twbs/bootstrap/scss/_offcanvas.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_offcanvas.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_offcanvas.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_pagination.scss
+@unlink('vendor/twbs/bootstrap/scss/_pagination.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_pagination.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_pagination.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_popover.scss
+@unlink('vendor/twbs/bootstrap/scss/_popover.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_popover.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_popover.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_progress.scss
+@unlink('vendor/twbs/bootstrap/scss/_progress.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_progress.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_progress.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_reboot.scss
+@unlink('vendor/twbs/bootstrap/scss/_reboot.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_reboot.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_reboot.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_root.scss
+@unlink('vendor/twbs/bootstrap/scss/_root.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_root.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_root.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_spinners.scss
+@unlink('vendor/twbs/bootstrap/scss/_spinners.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_spinners.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_spinners.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_tables.scss
+@unlink('vendor/twbs/bootstrap/scss/_tables.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_tables.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_tables.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_toasts.scss
+@unlink('vendor/twbs/bootstrap/scss/_toasts.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_toasts.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_toasts.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_tooltip.scss
+@unlink('vendor/twbs/bootstrap/scss/_tooltip.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_tooltip.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_tooltip.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_transitions.scss
+@unlink('vendor/twbs/bootstrap/scss/_transitions.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_transitions.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_transitions.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_type.scss
+@unlink('vendor/twbs/bootstrap/scss/_type.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_type.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_type.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_utilities.scss
+@unlink('vendor/twbs/bootstrap/scss/_utilities.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_utilities.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_utilities.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/_variables.scss
+@unlink('vendor/twbs/bootstrap/scss/_variables.scss');
+if (is_file('vendor/twbs/bootstrap/scss/_variables.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/_variables.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/bootstrap-grid.scss
+@unlink('vendor/twbs/bootstrap/scss/bootstrap-grid.scss');
+if (is_file('vendor/twbs/bootstrap/scss/bootstrap-grid.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/bootstrap-grid.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/bootstrap-reboot.scss
+@unlink('vendor/twbs/bootstrap/scss/bootstrap-reboot.scss');
+if (is_file('vendor/twbs/bootstrap/scss/bootstrap-reboot.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/bootstrap-reboot.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/bootstrap-utilities.scss
+@unlink('vendor/twbs/bootstrap/scss/bootstrap-utilities.scss');
+if (is_file('vendor/twbs/bootstrap/scss/bootstrap-utilities.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/bootstrap-utilities.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/bootstrap.scss
+@unlink('vendor/twbs/bootstrap/scss/bootstrap.scss');
+if (is_file('vendor/twbs/bootstrap/scss/bootstrap.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/bootstrap.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_floating-labels.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_floating-labels.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_floating-labels.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_floating-labels.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_form-check.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_form-check.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_form-check.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_form-check.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_form-control.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_form-control.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_form-control.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_form-control.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_form-range.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_form-range.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_form-range.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_form-range.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_form-select.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_form-select.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_form-select.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_form-select.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_form-text.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_form-text.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_form-text.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_form-text.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_input-group.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_input-group.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_input-group.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_input-group.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_labels.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_labels.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_labels.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_labels.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/forms/_validation.scss
+@unlink('vendor/twbs/bootstrap/scss/forms/_validation.scss');
+if (is_file('vendor/twbs/bootstrap/scss/forms/_validation.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/forms/_validation.scss');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/scss/forms
+@rmdir('vendor/twbs/bootstrap/scss/forms');
+if (is_dir('vendor/twbs/bootstrap/scss/forms')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/scss/forms');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/helpers/_clearfix.scss
+@unlink('vendor/twbs/bootstrap/scss/helpers/_clearfix.scss');
+if (is_file('vendor/twbs/bootstrap/scss/helpers/_clearfix.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/helpers/_clearfix.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/helpers/_colored-links.scss
+@unlink('vendor/twbs/bootstrap/scss/helpers/_colored-links.scss');
+if (is_file('vendor/twbs/bootstrap/scss/helpers/_colored-links.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/helpers/_colored-links.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/helpers/_position.scss
+@unlink('vendor/twbs/bootstrap/scss/helpers/_position.scss');
+if (is_file('vendor/twbs/bootstrap/scss/helpers/_position.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/helpers/_position.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/helpers/_ratio.scss
+@unlink('vendor/twbs/bootstrap/scss/helpers/_ratio.scss');
+if (is_file('vendor/twbs/bootstrap/scss/helpers/_ratio.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/helpers/_ratio.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/helpers/_stretched-link.scss
+@unlink('vendor/twbs/bootstrap/scss/helpers/_stretched-link.scss');
+if (is_file('vendor/twbs/bootstrap/scss/helpers/_stretched-link.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/helpers/_stretched-link.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/helpers/_text-truncation.scss
+@unlink('vendor/twbs/bootstrap/scss/helpers/_text-truncation.scss');
+if (is_file('vendor/twbs/bootstrap/scss/helpers/_text-truncation.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/helpers/_text-truncation.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/helpers/_visually-hidden.scss
+@unlink('vendor/twbs/bootstrap/scss/helpers/_visually-hidden.scss');
+if (is_file('vendor/twbs/bootstrap/scss/helpers/_visually-hidden.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/helpers/_visually-hidden.scss');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/scss/helpers
+@rmdir('vendor/twbs/bootstrap/scss/helpers');
+if (is_dir('vendor/twbs/bootstrap/scss/helpers')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/scss/helpers');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_alert.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_alert.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_alert.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_alert.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_border-radius.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_border-radius.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_border-radius.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_border-radius.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_box-shadow.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_box-shadow.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_box-shadow.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_box-shadow.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_breakpoints.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_breakpoints.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_breakpoints.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_breakpoints.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_buttons.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_buttons.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_buttons.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_buttons.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_caret.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_caret.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_caret.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_caret.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_clearfix.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_clearfix.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_clearfix.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_clearfix.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_color-scheme.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_color-scheme.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_color-scheme.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_color-scheme.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_container.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_container.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_container.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_container.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_deprecate.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_deprecate.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_deprecate.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_deprecate.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_forms.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_forms.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_forms.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_forms.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_gradients.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_gradients.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_gradients.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_gradients.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_grid.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_grid.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_grid.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_grid.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_image.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_image.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_image.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_image.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_list-group.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_list-group.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_list-group.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_list-group.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_lists.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_lists.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_lists.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_lists.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_pagination.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_pagination.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_pagination.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_pagination.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_reset-text.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_reset-text.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_reset-text.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_reset-text.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_resize.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_resize.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_resize.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_resize.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_table-variants.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_table-variants.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_table-variants.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_table-variants.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_text-truncate.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_text-truncate.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_text-truncate.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_text-truncate.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_transition.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_transition.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_transition.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_transition.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_utilities.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_utilities.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_utilities.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_utilities.scss');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/mixins/_visually-hidden.scss
+@unlink('vendor/twbs/bootstrap/scss/mixins/_visually-hidden.scss');
+if (is_file('vendor/twbs/bootstrap/scss/mixins/_visually-hidden.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/mixins/_visually-hidden.scss');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/scss/mixins
+@rmdir('vendor/twbs/bootstrap/scss/mixins');
+if (is_dir('vendor/twbs/bootstrap/scss/mixins')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/scss/mixins');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/utilities/_api.scss
+@unlink('vendor/twbs/bootstrap/scss/utilities/_api.scss');
+if (is_file('vendor/twbs/bootstrap/scss/utilities/_api.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/utilities/_api.scss');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/scss/utilities
+@rmdir('vendor/twbs/bootstrap/scss/utilities');
+if (is_dir('vendor/twbs/bootstrap/scss/utilities')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/scss/utilities');
+}
+
+// File deleted: vendor/twbs/bootstrap/scss/vendor/_rfs.scss
+@unlink('vendor/twbs/bootstrap/scss/vendor/_rfs.scss');
+if (is_file('vendor/twbs/bootstrap/scss/vendor/_rfs.scss')) {
+	warn('File could not be deleted: vendor/twbs/bootstrap/scss/vendor/_rfs.scss');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/scss/vendor
+@rmdir('vendor/twbs/bootstrap/scss/vendor');
+if (is_dir('vendor/twbs/bootstrap/scss/vendor')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/scss/vendor');
+}
+
+// Dir deleted: vendor/twbs/bootstrap/scss
+@rmdir('vendor/twbs/bootstrap/scss');
+if (is_dir('vendor/twbs/bootstrap/scss')) {
+	warn('Directory could not be deleted (was not empty?): vendor/twbs/bootstrap/scss');
+}
+
+// File deleted: vendor/tweeb/tinymce-i18n/.gitignore
+@unlink('vendor/tweeb/tinymce-i18n/.gitignore');
+if (is_file('vendor/tweeb/tinymce-i18n/.gitignore')) {
+	warn('File could not be deleted: vendor/tweeb/tinymce-i18n/.gitignore');
+}
+
+// File deleted: vendor/vakata/jstree/.gitignore
+@unlink('vendor/vakata/jstree/.gitignore');
+if (is_file('vendor/vakata/jstree/.gitignore')) {
+	warn('File could not be deleted: vendor/vakata/jstree/.gitignore');
+}
+
+
+file_put_contents('oidplus_version.txt', "Revision 616\n");
+if (trim(@file_get_contents('oidplus_version.txt')) !== 'Revision 616') err('Could not write to oidplus_version.txt!');
+
+
+echo 'DONE'; // This exact string will be compared in Update v3
+
+@unlink(__FILE__);
+if (is_file(__FILE__)) warn('Could not delete '.basename(__FILE__).'! Please delete it manually');
+
